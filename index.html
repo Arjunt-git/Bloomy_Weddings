@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BLOOMY WEDDINGS | Fine-Art Heritage Photography & Cinematography</title>
+  <meta name="description" content="Bloomy Weddings - Official Website. Fine-art photography studio specializing in Royal Wedding Photography, Destination Shoots, Editorial Portfolios & Milestone Birthday Galas. For Enquiries: +91 70251 98952.">
+  <meta name="keywords" content="Bloomy Weddings, Classic Wedding Photography, Heritage Destination Shoot, Modeling Portfolio, Birthday Party Photography, Kerala Photographer, bloomy_weddings">
+  
+  <!-- Official Favicon -->
+  <link rel="icon" type="image/jpeg" href="assets/bloomy_logo.jpg">
+
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Camera Shutter Flash Overlay -->
+  <div id="camera-flash"></div>
+
+  <!-- Ambient Canvas Sparkle Particles -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- Top Announcement / Quick Contact Bar -->
+  <div class="top-bar">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <!-- DSLR Animated Shutter Indicator -->
+      <div class="shutter-mini-icon" title="DSLR Sensor Ready">
+        <svg class="aperture-spin" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="14.31" y1="8" x2="20.05" y2="17.94"></line>
+          <line x1="9.69" y1="8" x2="21.17" y2="8"></line>
+          <line x1="7.38" y1="12" x2="13.12" y2="2.06"></line>
+          <line x1="9.69" y1="16" x2="3.95" y2="6.06"></line>
+          <line x1="14.31" y1="16" x2="2.83" y2="16"></line>
+          <line x1="16.62" y1="12" x2="10.88" y2="21.94"></line>
+        </svg>
+      </div>
+      <span style="color: var(--text-muted); font-size: 0.82rem; font-family: var(--font-sans);">✦ Fine-Art Heritage Photography Across India & Royal Overseas Destinations</span>
+    </div>
+    <div class="top-bar-links">
+      <a href="tel:+917025198952" class="top-bar-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+        <span>+91 70251 98952</span>
+      </a>
+      <a href="https://www.instagram.com/bloomy_weddings/" target="_blank" class="top-bar-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+        <span>@bloomy_weddings</span>
+      </a>
+      <a href="https://www.threads.com/@bloomy_weddings" target="_blank" class="top-bar-link" title="Follow on Threads">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+        <span>Threads</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Navigation Header -->
+  <header class="navbar">
+    <div class="nav-container">
+      <!-- Official Bloomy Weddings Logo Image -->
+      <a href="#" class="brand-logo" title="Bloomy Weddings Official Logo">
+        <img src="assets/bloomy_logo.jpg" alt="Bloomy Weddings Logo" class="brand-logo-img">
+      </a>
+
+      <ul class="nav-menu">
+        <li><a href="#hero" class="nav-link active">Home</a></li>
+        <li><a href="#services" class="nav-link">Services</a></li>
+        <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+        <li><a href="#estimator" class="nav-link">Package Estimator</a></li>
+        <li><a href="#about" class="nav-link">About Us</a></li>
+        <li><a href="#reviews" class="nav-link">Love Stories</a></li>
+        <li><a href="#faqs" class="nav-link">FAQs</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <!-- DSLR Shutter Button Animation Trigger -->
+        <button class="dslr-shutter-trigger" onclick="triggerCameraShutterSound()" title="Snap DSLR Shutter Preview">
+          <div class="shutter-red-dot"></div>
+          <span>SNAP SHUTTER</span>
+        </button>
+
+        <button class="theme-toggle-btn" onclick="toggleTheme()" title="Switch Classic Theme Mode">
+          <span id="theme-toggle-text">☀️ Classic Ivory</span>
+        </button>
+
+        <a href="https://wa.me/917025198952?text=Hi%20Bloomy%20Weddings%2C%20I%20would%20like%20to%20enquire%20about%20your%20classic%20photography%20services!" target="_blank" class="btn btn-whatsapp">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+          <span>WhatsApp Us</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero" class="hero-section">
+    <div class="hero-content">
+      <div class="hero-tag">
+        <svg class="aperture-spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="14.31" y1="8" x2="20.05" y2="17.94"></line>
+          <line x1="9.69" y1="8" x2="21.17" y2="8"></line>
+        </svg>
+        <span>FINE-ART HERITAGE & ROMANCE</span>
+      </div>
+      
+      <div class="script-text">Timeless Romance & Royal Elegance</div>
+      <h1 class="hero-title"><span class="gold-gradient-text">BLOOMY</span> WEDDINGS</h1>
+      
+      <p class="hero-desc">
+        Specializing in classic Wedding Photography, romantic Destination Shoots, editorial Modeling Portfolios & milestone Birthday Galas across India & royal destinations worldwide.
+      </p>
+
+      <div class="hero-ctas">
+        <a href="https://wa.me/917025198952?text=Hi%20Bloomy%20Weddings%2C%20I%20would%20like%20to%20enquire%20about%20your%20classic%20photography%20services!" target="_blank" class="btn btn-whatsapp">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.893 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+          <span>Enquire on WhatsApp (+91 70251 98952)</span>
+        </a>
+        <button onclick="triggerCameraShutterSound(); filterPortfolioFromService('all')" class="btn btn-gold">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+          <span>Explore Gallery</span>
+        </button>
+        <a href="#estimator" class="btn btn-outline">
+          <span>Calculate Package</span>
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num">600+</div>
+          <div class="stat-label">Couples Preserved</div>
+        </div>
+        <div>
+          <div class="stat-num">50+</div>
+          <div class="stat-label">Royal Venues</div>
+        </div>
+        <div>
+          <div class="stat-num">12+</div>
+          <div class="stat-label">Years of Craft</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Classic Arched Hero Visual with Interactive DSLR Viewfinder -->
+    <div class="hero-visual">
+      <div class="hero-arch-card viewfinder-container" onclick="triggerCameraShutterSound(); openLightbox('gal-classic-1')">
+        
+        <!-- DSLR Camera Viewfinder HUD Overlay -->
+        <div class="viewfinder-hud">
+          <div class="hud-corner top-left"></div>
+          <div class="hud-corner top-right"></div>
+          <div class="hud-corner bottom-left"></div>
+          <div class="hud-corner bottom-right"></div>
+          <div class="hud-center-crosshair"></div>
+          
+          <div class="hud-info-bar">
+            <span>🔴 REC 4K</span>
+            <span class="hud-aperture">f/1.4</span>
+            <span>1/1000s</span>
+            <span>ISO 100</span>
+            <span class="hud-focus-status">● AF-C LOCKED</span>
+          </div>
+        </div>
+
+        <img src="assets/classic_wedding.jpg" alt="Bloomy Weddings Classic Heritage Portrait" class="hero-arch-img">
+        
+        <div class="hero-arch-overlay">
+          <div>
+            <h3 style="font-family: var(--font-title); font-size: 1.1rem;">Royal Heritage Palace Shoot</h3>
+            <p style="font-size: 0.8rem; color: var(--gold-primary);">Udaipur Palace ✦ Click to Snap & Expand</p>
+          </div>
+          <button class="btn-icon" aria-label="Snap Shutter and Expand">
+            <svg class="aperture-spin" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83M16.62 12l-5.74 9.94"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="classic-flourish">✤ ⚜ ✤</div>
+
+  <!-- Interactive DSLR Camera Lens Simulator Section -->
+  <section class="section" style="padding-top: 20px; padding-bottom: 40px;">
+    <div class="dslr-interactive-card">
+      <div class="dslr-lens-graphic">
+        <div class="lens-outer-ring">
+          <div class="lens-focus-ring" id="lens-ring-spinner">
+            <div class="lens-aperture-blades">
+              <svg class="lens-aperture-svg" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="none" stroke="var(--gold-primary)" stroke-width="4"/>
+                <polygon points="50,10 65,35 45,35" fill="var(--gold-primary)" opacity="0.8"/>
+                <polygon points="90,50 65,65 65,45" fill="var(--gold-primary)" opacity="0.8"/>
+                <polygon points="50,90 35,65 55,65" fill="var(--gold-primary)" opacity="0.8"/>
+                <polygon points="10,50 35,35 35,55" fill="var(--gold-primary)" opacity="0.8"/>
+              </svg>
+            </div>
+            <div class="lens-glass-reflection"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dslr-controls-info">
+        <div class="script-text" style="font-size: 2rem;">Interactive DSLR Optics</div>
+        <h3 style="font-family: var(--font-title); font-size: 1.6rem; color: var(--gold-primary); margin-bottom: 8px;">FULL-FRAME CINEMA LENS SIMULATOR</h3>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px;">
+          Experience optical precision. Click the shutter release button below to simulate a DSLR mechanical curtain flash & aperture opening.
+        </p>
+
+        <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+          <button class="btn btn-gold" onclick="triggerCameraShutterSound()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg>
+            <span>TRIGGER DSLR SHUTTER (CLICK)</span>
+          </button>
+          
+          <div class="camera-spec-pill">
+            <span>50mm f/1.2 GM Prime Lens</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="section">
+    <div class="section-header">
+      <div class="section-subtitle">Our Masterpieces</div>
+      <h2 class="section-title">PHOTOGRAPHY <span class="gold-gradient-text">COLLECTIONS</span></h2>
+      <p class="section-desc">Tailored classic photography and cinematography collections crafted to preserve every emotion with grace.</p>
+    </div>
+
+    <div class="services-grid" id="services-grid">
+      <!-- Injected dynamically by app.js -->
+    </div>
+  </section>
+
+  <div class="classic-flourish">✤ ⚜ ✤</div>
+
+  <!-- Filterable Portfolio Gallery -->
+  <section id="portfolio" class="section">
+    <div class="section-header">
+      <div class="section-subtitle">Timeless Archives</div>
+      <h2 class="section-title">THE CLASSIC <span class="gold-gradient-text">GALLERY</span></h2>
+      <p class="section-desc">Explore fine-art wedding albums, romantic destination portraits, high-fashion modeling lookbooks, and milestone gala memories.</p>
+    </div>
+
+    <div class="portfolio-toolbar">
+      <div class="filter-tabs">
+        <button class="tab-btn active" data-category="all" onclick="renderPortfolio('all'); updateTabUI(this)">All Archives</button>
+        <button class="tab-btn" data-category="wedding" onclick="renderPortfolio('wedding'); updateTabUI(this)">Weddings</button>
+        <button class="tab-btn" data-category="destination" onclick="renderPortfolio('destination'); updateTabUI(this)">Destination</button>
+        <button class="tab-btn" data-category="modeling" onclick="renderPortfolio('modeling'); updateTabUI(this)">Modeling</button>
+        <button class="tab-btn" data-category="birthday" onclick="renderPortfolio('birthday'); updateTabUI(this)">Birthday Party</button>
+      </div>
+
+      <button class="btn btn-outline" style="padding: 6px 16px; font-size: 0.8rem;" onclick="openUploadModal()">
+        <span>+ Add Your Photo</span>
+      </button>
+    </div>
+
+    <div class="gallery-grid" id="gallery-grid">
+      <!-- Injected dynamically by app.js -->
+    </div>
+  </section>
+
+  <div class="classic-flourish">✤ ⚜ ✤</div>
+
+  <!-- Package Estimator Section -->
+  <section id="estimator" class="section">
+    <div class="section-header">
+      <div class="section-subtitle">Investment Estimator</div>
+      <h2 class="section-title">INSTANT PACKAGE <span class="gold-gradient-text">CALCULATOR</span></h2>
+      <p class="section-desc">Select your collection type, event duration, and classic handcrafted add-ons for an instant quote.</p>
+    </div>
+
+    <div class="estimator-card">
+      <div class="estimator-options">
+        <h3>1. Select Collection & Duration</h3>
+
+        <div class="form-group">
+          <label class="form-label" for="est-service">Collection Category</label>
+          <select id="est-service" class="form-select">
+            <option value="wedding">Royal Wedding Photography & Films (Base ₹45,000/day)</option>
+            <option value="destination">Destination Heritage Shoot (Base ₹75,000/day)</option>
+            <option value="modeling">Modeling & Editorial Portrait Session (Base ₹20,000/session)</option>
+            <option value="birthday">Birthday Party & Gala Coverage (Base ₹15,000/event)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="est-duration">Event Duration</label>
+          <select id="est-duration" class="form-select">
+            <option value="1">1 Full Day Coverage</option>
+            <option value="2">2 Days Comprehensive Coverage</option>
+            <option value="3">3 Days Royal Package</option>
+            <option value="0.5">Half Day Session (4 Hours)</option>
+          </select>
+        </div>
+
+        <h3 style="margin-top: 30px;">2. Handcrafted Add-ons</h3>
+        <div class="addon-checkbox-list" id="est-addons-container">
+          <!-- Injected dynamically by app.js -->
+        </div>
+      </div>
+
+      <div class="estimator-summary">
+        <div>
+          <h3 style="font-family: var(--font-title); color: var(--gold-primary); margin-bottom: 20px; font-size: 1.2rem;">Investment Breakdown</h3>
+          
+          <div class="price-breakdown">
+            <div class="summary-row">
+              <span>Base Coverage Fee</span>
+              <span id="summary-base-price">₹45,000</span>
+            </div>
+            <div class="summary-row">
+              <span>Selected Add-ons</span>
+              <span id="summary-addons-price">₹0</span>
+            </div>
+            <div class="summary-row" style="color: var(--gold-primary);">
+              <span>Retouched Gallery & High-Res Storage</span>
+              <span>Included</span>
+            </div>
+          </div>
+
+          <div class="summary-total">
+            <div>
+              <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase;">Estimated Investment</span>
+              <div class="total-num" id="summary-total-price">₹45,000</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 24px;">
+          <a id="est-wa-btn" href="#" target="_blank" class="btn btn-whatsapp" style="width: 100%; justify-content: center; padding: 14px;">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+            <span>Send Quote to WhatsApp (+91 70251 98952)</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="classic-flourish">✤ ⚜ ✤</div>
+
+  <!-- About Section -->
+  <section id="about" class="section">
+    <div class="about-grid">
+      <div class="about-img-box">
+        <img src="assets/classic_wedding.jpg" alt="Bloomy Weddings Photography Craft">
+      </div>
+
+      <div>
+        <div class="script-text">Our Heritage & Craft</div>
+        <h2 class="section-title">ABOUT <span class="gold-gradient-text">BLOOMY WEDDINGS</span></h2>
+        <p style="color: var(--text-muted); margin-bottom: 18px; font-size: 1.05rem;">
+          At Bloomy Weddings, photography is an art of quiet preservation. We capture the unscripted glances, royal traditions, and timeless beauty of love stories with a classic fine-art touch.
+        </p>
+        <p style="color: var(--text-muted); margin-bottom: 24px; font-size: 1rem;">
+          Over 12 years of fine-art experience across palace venues in Rajasthan, coastal Kerala backwaters, and international destinations has refined our painterly approach to lighting, composition, and emotional depth.
+        </p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px;">
+          <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+            <div style="color: var(--gold-primary); font-family: var(--font-title); font-weight: 700;">🎥 Sony Cinema Line</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted);">4K 120fps Full-Frame Master Optics</div>
+          </div>
+          <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+            <div style="color: var(--gold-primary); font-family: var(--font-title); font-weight: 700;">🚁 DJI Mavic 3 Pro</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted);">Hasselblad 4K Heritage Aerial Cinema</div>
+          </div>
+        </div>
+
+        <a href="https://wa.me/917025198952?text=Hi%20Bloomy%20Weddings%2C%20I%20would%20like%20to%20know%20more%20about%20your%20classic%20photography%20packages!" target="_blank" class="btn btn-gold">
+          <span>Connect with Our Director</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="classic-flourish">✤ ⚜ ✤</div>
+
+  <!-- Testimonials Section -->
+  <section id="reviews" class="section">
+    <div class="section-header">
+      <div class="section-subtitle">Pure Emotion & Praise</div>
+      <h2 class="section-title">CLIENT <span class="gold-gradient-text">LOVE STORIES</span></h2>
+      <p class="section-desc">Words from couples and clients who entrusted Bloomy Weddings to preserve their most cherished memories.</p>
+    </div>
+
+    <div class="testimonials-grid" id="testimonials-grid">
+      <!-- Injected dynamically by app.js -->
+    </div>
+  </section>
+
+  <!-- FAQs Section -->
+  <section id="faqs" class="section">
+    <div class="section-header">
+      <div class="section-subtitle">Common Inquiries</div>
+      <h2 class="section-title">FREQUENTLY ASKED <span class="gold-gradient-text">QUESTIONS</span></h2>
+      <p class="section-desc">Everything you need to know about reserving Bloomy Weddings for your occasion.</p>
+    </div>
+
+    <div class="faq-list" id="faq-list">
+      <!-- Injected dynamically by app.js -->
+    </div>
+  </section>
+
+  <div class="classic-flourish">✤ ⚜ ✤</div>
+
+  <!-- Contact Section -->
+  <section id="contact" class="section">
+    <div class="section-header">
+      <div class="section-subtitle">Reserve Your Date</div>
+      <h2 class="section-title">BOOK A <span class="gold-gradient-text">CONSULTATION</span></h2>
+      <p class="section-desc">Reach out via the form below or chat live on WhatsApp (+91 70251 98952).</p>
+    </div>
+
+    <div class="estimator-card" style="grid-template-columns: 1.2fr 1fr;">
+      <form id="booking-contact-form">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="form-group">
+            <label class="form-label" for="contact-name">Your Full Name *</label>
+            <input type="text" id="contact-name" class="form-input" placeholder="e.g. Ananya Sharma" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="contact-phone">Phone / WhatsApp Number *</label>
+            <input type="tel" id="contact-phone" class="form-input" placeholder="+91 70251 98952" required>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="form-group">
+            <label class="form-label" for="contact-service">Collection Selected</label>
+            <select id="contact-service" class="form-select">
+              <option value="Royal Wedding Photography">Royal Wedding Photography</option>
+              <option value="Destination Photography">Destination Photography</option>
+              <option value="Modeling & Portraiture">Modeling & Portraiture</option>
+              <option value="Birthday Party & Galas">Birthday Party & Galas</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="contact-date">Event Date</label>
+            <input type="date" id="contact-date" class="form-input">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="contact-location">Event Location / Venue</label>
+          <input type="text" id="contact-location" class="form-input" placeholder="e.g. Udaipur / Kochi, Kerala / Goa">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="contact-notes">Special Visions or Add-on Requests</label>
+          <textarea id="contact-notes" class="form-textarea" rows="3" placeholder="Tell us about your event theme, guest count, or handcrafted album preferences..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-gold" style="width: 100%; justify-content: center; padding: 14px;">
+          <span>Submit Enquiry (Direct WhatsApp Link)</span>
+        </button>
+      </form>
+
+      <!-- Direct Contact Card -->
+      <div style="background: var(--bg-dark); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 32px; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <h3 style="font-family: var(--font-title); color: var(--gold-primary); margin-bottom: 20px;">Direct Enquiries</h3>
+          
+          <div style="margin-bottom: 22px;">
+            <div style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase;">Direct Phone / Call</div>
+            <a href="tel:+917025198952" style="font-family: var(--font-title); font-size: 1.4rem; color: var(--gold-primary); text-decoration: none; font-weight: 700;">+91 70251 98952</a>
+          </div>
+
+          <div style="margin-bottom: 22px;">
+            <div style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase;">Official Instagram</div>
+            <a href="https://www.instagram.com/bloomy_weddings/" target="_blank" style="color: var(--text-main); text-decoration: underline; font-size: 0.95rem;">instagram.com/bloomy_weddings</a>
+          </div>
+
+          <div style="margin-bottom: 22px;">
+            <div style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase;">Threads Handle</div>
+            <a href="https://www.threads.com/@bloomy_weddings" target="_blank" style="color: var(--text-main); text-decoration: underline; font-size: 0.95rem;">threads.com/@bloomy_weddings</a>
+          </div>
+
+          <div style="margin-bottom: 22px;">
+            <div style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase;">Studio Base</div>
+            <div style="color: var(--text-main); font-size: 0.95rem;">Kerala, India (Worldwide Destination Travel)</div>
+          </div>
+        </div>
+
+        <a href="https://wa.me/917025198952?text=Hello%20Bloomy%20Weddings%2C%20I%20am%20enquiring%20directly%20for%20a%20classic%20photography%20session." target="_blank" class="btn btn-whatsapp" style="justify-content: center; width: 100%;">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+          <span>Chat Live on WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox-modal" id="lightbox-modal">
+    <div class="lightbox-content">
+      <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+      <div class="lightbox-img-box">
+        <img id="lightbox-img" src="" alt="Expanded Classic View">
+      </div>
+      <div class="lightbox-details">
+        <div>
+          <h3 id="lightbox-title" style="font-family: var(--font-title); font-size: 1.6rem; margin-bottom: 8px;"></h3>
+          <div id="lightbox-location" style="color: var(--gold-primary); font-size: 0.9rem; margin-bottom: 16px;"></div>
+          <p id="lightbox-desc" style="color: var(--text-muted); font-size: 1rem; margin-bottom: 24px;"></p>
+        </div>
+        <a id="lightbox-wa-btn" href="#" target="_blank" class="btn btn-whatsapp" style="width: 100%; justify-content: center;">
+          <span>Enquire About This Shoot Style on WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Image Upload Modal -->
+  <div class="lightbox-modal" id="upload-modal">
+    <div class="lightbox-content" style="grid-template-columns: 1fr; max-width: 540px; padding: 36px;">
+      <button class="lightbox-close" onclick="closeUploadModal()">&times;</button>
+      <h3 style="font-family: var(--font-title); font-size: 1.4rem; margin-bottom: 8px; color: var(--gold-primary);">Add Classic Photo to Portfolio</h3>
+      <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 24px;">Select an image file or provide an image link to feature it in the Bloomy Weddings gallery.</p>
+
+      <form id="upload-form">
+        <div class="form-group">
+          <label class="form-label" for="upload-title">Photo Title / Couple Name</label>
+          <input type="text" id="upload-title" class="form-input" placeholder="e.g. Heritage Palace Ceremony" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="upload-category">Category</label>
+          <select id="upload-category" class="form-select">
+            <option value="wedding">Wedding</option>
+            <option value="destination">Destination</option>
+            <option value="modeling">Modeling</option>
+            <option value="birthday">Birthday Party</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="upload-location">Location</label>
+          <input type="text" id="upload-location" class="form-input" placeholder="e.g. Udaipur, Rajasthan">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="upload-file">Select Image File</label>
+          <input type="file" id="upload-file" class="form-input" accept="image/*">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="upload-url">OR Image URL</label>
+          <input type="url" id="upload-url" class="form-input" placeholder="https://...">
+        </div>
+
+        <button type="submit" class="btn btn-gold" style="width: 100%; justify-content: center;">
+          <span>Add Photo to Live Gallery</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Floating Sticky WhatsApp Widget -->
+  <a href="https://wa.me/917025198952?text=Hi%20Bloomy%20Weddings%2C%20I%20would%20like%20to%20enquire%20about%20your%20classic%20photography%20services!" target="_blank" class="whatsapp-float" title="Direct WhatsApp Enquiry +91 70251 98952">
+    <div class="whatsapp-tooltip">Enquire Now +91 70251 98952</div>
+    <div class="whatsapp-btn-circle">
+      <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+    </div>
+  </a>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <a href="#" class="brand-logo" style="margin-bottom: 16px;">
+          <img src="assets/bloomy_logo.jpg" alt="Bloomy Weddings Official Logo" class="brand-logo-img" style="height: 56px;">
+        </a>
+        <p>Crafting timeless romance, fine-art heritage albums, breathtaking destination moments, editorial model shoots & birthday galas.</p>
+        <div class="social-icons">
+          <a href="https://www.instagram.com/bloomy_weddings/" target="_blank" class="social-link" title="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </a>
+          <a href="https://www.threads.com/@bloomy_weddings" target="_blank" class="social-link" title="Threads">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+          </a>
+          <a href="https://wa.me/917025198952" target="_blank" class="social-link" title="WhatsApp">
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Specializations</h4>
+        <ul class="footer-links">
+          <li><a href="#services">Royal Wedding Photography</a></li>
+          <li><a href="#services">Destination Photography</a></li>
+          <li><a href="#services">Modeling & Portraiture</a></li>
+          <li><a href="#services">Birthday Party Photography</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul class="footer-links">
+          <li><a href="#portfolio">Classic Gallery</a></li>
+          <li><a href="#estimator">Package Calculator</a></li>
+          <li><a href="#about">About Bloomy Team</a></li>
+          <li><a href="#reviews">Love Stories</a></li>
+          <li><a href="#faqs">Inquiry FAQs</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>For Enquiries</h4>
+        <p style="margin-bottom: 8px;"><strong>Phone / Call:</strong> <a href="tel:+917025198952" style="color: var(--gold-primary); text-decoration: none;">+91 70251 98952</a></p>
+        <p style="margin-bottom: 8px;"><strong>WhatsApp:</strong> <a href="https://wa.me/917025198952" target="_blank" style="color: #1f9a4e; text-decoration: none;">+91 70251 98952</a></p>
+        <p style="margin-bottom: 8px;"><strong>Instagram:</strong> <a href="https://www.instagram.com/bloomy_weddings/" target="_blank" style="color: var(--text-muted);">@bloomy_weddings</a></p>
+        <p style="margin-bottom: 8px;"><strong>Threads:</strong> <a href="https://www.threads.com/@bloomy_weddings" target="_blank" style="color: var(--text-muted);">threads.com/@bloomy_weddings</a></p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>&copy; 2026 BLOOMY WEDDINGS. All Rights Reserved.</div>
+      <div>Designed with Fine-Art Heritage & Passion.</div>
+    </div>
+  </footer>
+
+  <!-- App Scripts -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    function updateTabUI(btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+  </script>
+</body>
+</html>
