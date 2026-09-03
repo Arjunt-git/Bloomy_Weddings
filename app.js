@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initParticlesCanvas();
   renderServices();
   renderPortfolio('all');
-  initPackageEstimator();
   renderTestimonials();
   renderFAQs();
   initContactForm();
@@ -210,116 +209,7 @@ function closeLightbox() {
   if (modal) modal.classList.remove("active");
 }
 
-/* ----------------------------------------------------
-   5. Interactive Package & Quote Estimator
----------------------------------------------------- */
-let selectedAddons = new Set();
 
-function initPackageEstimator() {
-  const serviceSelect = document.getElementById("est-service");
-  const durationSelect = document.getElementById("est-duration");
-  const addonsContainer = document.getElementById("est-addons-container");
-  if (!serviceSelect || !addonsContainer) return;
-
-  addonsContainer.innerHTML = BLOOMY_DATA.pricingAddons.map(addon => `
-    <div class="addon-item" id="addon-card-${addon.id}" onclick="toggleAddon('${addon.id}')">
-      <div class="addon-info">
-        <input type="checkbox" id="addon-chk-${addon.id}" value="${addon.id}" style="accent-color: var(--gold-primary);" onclick="event.stopPropagation(); toggleAddon('${addon.id}')">
-        <div>
-          <div style="font-weight: 600; font-size: 0.92rem; font-family: var(--font-title);">${addon.name}</div>
-          <div style="font-size: 0.82rem; color: var(--text-muted);">${addon.desc}</div>
-        </div>
-      </div>
-      <div class="addon-price">+₹${addon.price.toLocaleString('en-IN')}</div>
-    </div>
-  `).join('');
-
-  serviceSelect.addEventListener("change", calculateTotalEstimate);
-  durationSelect.addEventListener("change", calculateTotalEstimate);
-
-  calculateTotalEstimate();
-}
-
-function toggleAddon(addonId) {
-  const chk = document.getElementById(`addon-chk-${addonId}`);
-  const card = document.getElementById(`addon-card-${addonId}`);
-  
-  if (selectedAddons.has(addonId)) {
-    selectedAddons.delete(addonId);
-    if (chk) chk.checked = false;
-    if (card) card.classList.remove("selected");
-  } else {
-    selectedAddons.add(addonId);
-    if (chk) chk.checked = true;
-    if (card) card.classList.add("selected");
-  }
-  calculateTotalEstimate();
-}
-
-function calculateTotalEstimate() {
-  const serviceSelect = document.getElementById("est-service");
-  const durationSelect = document.getElementById("est-duration");
-  const basePriceDisplay = document.getElementById("summary-base-price");
-  const addonsPriceDisplay = document.getElementById("summary-addons-price");
-  const totalPriceDisplay = document.getElementById("summary-total-price");
-  const sendWaBtn = document.getElementById("est-wa-btn");
-
-  if (!serviceSelect) return;
-
-  const baseRates = {
-    "wedding": 45000,
-    "destination": 75000,
-    "modeling": 20000,
-    "birthday": 15000
-  };
-
-  const serviceType = serviceSelect.value;
-  const durationMultiplier = parseFloat(durationSelect.value) || 1;
-
-  const baseTotal = (baseRates[serviceType] || 45000) * durationMultiplier;
-  
-  let addonsTotal = 0;
-  selectedAddons.forEach(id => {
-    const item = BLOOMY_DATA.pricingAddons.find(a => a.id === id);
-    if (item) addonsTotal += item.price;
-  });
-
-  const grandTotal = baseTotal + addonsTotal;
-
-  if (basePriceDisplay) basePriceDisplay.textContent = `₹${baseTotal.toLocaleString('en-IN')}`;
-  if (addonsPriceDisplay) addonsPriceDisplay.textContent = `₹${addonsTotal.toLocaleString('en-IN')}`;
-  if (totalPriceDisplay) totalPriceDisplay.textContent = `₹${grandTotal.toLocaleString('en-IN')}`;
-
-  const serviceNames = {
-    "wedding": "Royal Wedding Photography",
-    "destination": "Destination Photography",
-    "modeling": "Modeling & Portraiture",
-    "birthday": "Birthday Party & Galas"
-  };
-  const durationTexts = {
-    "1": "1 Full Day",
-    "2": "2 Days Package",
-    "3": "3 Days Royal Package",
-    "0.5": "Half Day Session"
-  };
-
-  const selectedAddonNames = Array.from(selectedAddons).map(id => {
-    const found = BLOOMY_DATA.pricingAddons.find(a => a.id === id);
-    return found ? found.name : '';
-  }).filter(Boolean);
-
-  const waMsg = `Hi Bloomy Weddings! I calculated an estimate on your website:
-- Service: ${serviceNames[serviceType]}
-- Duration: ${durationTexts[durationSelect.value] || '1 Day'}
-- Add-ons: ${selectedAddonNames.length > 0 ? selectedAddonNames.join(', ') : 'None'}
-- Total Quote: ₹${grandTotal.toLocaleString('en-IN')}
-
-I would like to check availability and book a consultation!`;
-
-  if (sendWaBtn) {
-    sendWaBtn.href = `https://wa.me/917025198952?text=${encodeURIComponent(waMsg)}`;
-  }
-}
 
 /* ----------------------------------------------------
    6. Render Testimonials & FAQs
