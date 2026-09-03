@@ -1137,11 +1137,79 @@ h1, h2, h3, .classic-heading {
   color: var(--text-dim);
 }
 
-/* Responsive Adaptation */
+/* ----------------------------------------------------
+   Mobile Navigation Drawer & Mobile Responsive Rules
+---------------------------------------------------- */
+.mobile-menu-toggle {
+  display: none;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.mobile-menu-toggle:hover {
+  border-color: var(--gold-primary);
+  color: var(--gold-primary);
+}
+
+.mobile-menu-drawer {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--bg-card);
+  border-bottom: 2px double var(--border-glow);
+  padding: 24px 28px;
+  box-shadow: var(--shadow-soft);
+  z-index: 999;
+}
+.mobile-menu-drawer.active {
+  display: block;
+  animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mobile-nav-menu {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.mobile-nav-link {
+  color: var(--text-main);
+  text-decoration: none;
+  font-family: var(--font-title);
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+  display: block;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border-subtle);
+  transition: var(--transition);
+}
+.mobile-nav-link:hover {
+  color: var(--gold-primary);
+  padding-left: 8px;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tablet Media Query (max-width: 1024px) */
 @media (max-width: 1024px) {
   .hero-section {
     grid-template-columns: 1fr;
     text-align: center;
+    padding: 40px 24px;
+    gap: 36px;
   }
   .hero-desc {
     margin-left: auto;
@@ -1150,8 +1218,9 @@ h1, h2, h3, .classic-heading {
   .hero-ctas {
     justify-content: center;
   }
-  .estimator-card, .about-grid {
+  .about-grid {
     grid-template-columns: 1fr;
+    gap: 36px;
   }
   .lightbox-content {
     grid-template-columns: 1fr;
@@ -1161,19 +1230,139 @@ h1, h2, h3, .classic-heading {
   }
 }
 
-@media (max-width: 768px) {
+/* Mobile Media Query (max-width: 860px) */
+@media (max-width: 860px) {
   .nav-menu {
     display: none;
   }
-  .hero-title {
-    font-size: 2.6rem;
+  .mobile-menu-toggle {
+    display: flex;
   }
+  
+  .top-bar {
+    flex-direction: column;
+    padding: 8px 16px;
+    gap: 8px;
+    text-align: center;
+  }
+  .top-bar-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    font-size: 0.78rem;
+  }
+  
+  .nav-container {
+    padding: 12px 16px;
+  }
+  .brand-logo-img {
+    height: 44px;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 7vw, 3.2rem);
+  }
+  .script-text {
+    font-size: clamp(2rem, 6vw, 2.6rem);
+  }
+  .hero-desc {
+    font-size: 1.02rem;
+  }
+  .hero-arch-card {
+    max-width: 100%;
+    border-radius: 80px 80px 14px 14px;
+  }
+  .hero-arch-img {
+    height: 320px;
+    border-radius: 70px 70px 10px 10px;
+  }
+  .hero-stats {
+    gap: 12px;
+    padding-top: 20px;
+  }
+  .stat-num {
+    font-size: 1.7rem;
+  }
+  .stat-label {
+    font-size: 0.7rem;
+  }
+
+  .section {
+    padding: 60px 16px;
+  }
+  .section-title {
+    font-size: clamp(1.8rem, 6vw, 2.4rem);
+  }
+  .section-subtitle {
+    font-size: clamp(2rem, 6vw, 2.6rem);
+  }
+
+  .services-grid, .gallery-grid, .testimonials-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .portfolio-toolbar {
+    padding: 10px 14px;
+    border-radius: var(--radius-md);
+  }
+  .filter-tabs {
+    width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tab-btn {
+    white-space: nowrap;
+    padding: 6px 14px;
+    font-size: 0.78rem;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+  .form-input, .form-select, .form-textarea {
+    font-size: 16px; /* Prevents iOS auto-zoom on input tap */
+    padding: 12px 14px;
+  }
+
   .footer-container {
     grid-template-columns: 1fr;
+    gap: 32px;
   }
-  .top-bar {
+  .footer-bottom {
     flex-direction: column;
     gap: 8px;
     text-align: center;
   }
+
+  /* Compact Mobile Floating WhatsApp Button */
+  .whatsapp-float {
+    bottom: 16px;
+    right: 16px;
+  }
+  .whatsapp-tooltip {
+    display: none;
+  }
+  .whatsapp-btn-circle {
+    width: 52px;
+    height: 52px;
+  }
+  .whatsapp-btn-circle svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .lightbox-content {
+    padding: 20px;
+    max-height: 88vh;
+  }
+  .lightbox-img-box img {
+    max-height: 280px;
+  }
+  .lightbox-details {
+    padding: 20px 0 0 0;
+  }
 }
+

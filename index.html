@@ -50,10 +50,10 @@
         <li><a href="#hero" class="nav-link active">Home</a></li>
         <li><a href="#services" class="nav-link">Services</a></li>
         <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
         <li><a href="#about" class="nav-link">About Us</a></li>
         <li><a href="#reviews" class="nav-link">Love Stories</a></li>
         <li><a href="#faqs" class="nav-link">FAQs</a></li>
-        <li><a href="#contact" class="nav-link">Contact</a></li>
       </ul>
 
       <div class="nav-actions">
@@ -65,6 +65,29 @@
         <a href="https://wa.me/917025198952?text=Hi%20Bloomy%20Weddings%2C%20I%20would%20like%20to%20enquire%20about%20your%20classic%20photography%20services!" target="_blank" class="btn btn-whatsapp">
           <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
           <span>WhatsApp Us</span>
+        </a>
+
+        <!-- Mobile Hamburger Menu Button -->
+        <button class="mobile-menu-toggle" id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle Navigation Menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Slide Drawer Menu -->
+    <div class="mobile-menu-drawer" id="mobile-drawer">
+      <ul class="mobile-nav-menu">
+        <li><a href="#hero" class="mobile-nav-link" onclick="closeMobileMenu()">Home</a></li>
+        <li><a href="#services" class="mobile-nav-link" onclick="closeMobileMenu()">Services</a></li>
+        <li><a href="#portfolio" class="mobile-nav-link" onclick="closeMobileMenu()">Portfolio</a></li>
+        <li><a href="#contact" class="mobile-nav-link" onclick="closeMobileMenu()">Contact</a></li>
+        <li><a href="#about" class="mobile-nav-link" onclick="closeMobileMenu()">About Us</a></li>
+        <li><a href="#reviews" class="mobile-nav-link" onclick="closeMobileMenu()">Love Stories</a></li>
+        <li><a href="#faqs" class="mobile-nav-link" onclick="closeMobileMenu()">FAQs</a></li>
+      </ul>
+      <div style="margin-top: 16px;">
+        <a href="https://wa.me/917025198952?text=Hi%20Bloomy%20Weddings%2C%20I%20would%20like%20to%20enquire%20about%20your%20photography%20services!" target="_blank" class="btn btn-whatsapp" style="width: 100%; justify-content: center; padding: 12px;">
+          <span>WhatsApp Direct (+91 70251 98952)</span>
         </a>
       </div>
     </div>
@@ -174,74 +197,7 @@
 
   <div class="classic-flourish">✤ ⚜ ✤</div>
 
-
-
-  <!-- About Section -->
-  <section id="about" class="section">
-    <div class="about-grid">
-      <div class="about-img-box">
-        <img src="assets/classic_wedding.jpg" alt="Bloomy Weddings Photography Craft">
-      </div>
-
-      <div>
-        <div class="script-text">Our Heritage & Craft</div>
-        <h2 class="section-title">ABOUT <span class="gold-gradient-text">BLOOMY WEDDINGS</span></h2>
-        <p style="color: var(--text-muted); margin-bottom: 18px; font-size: 1.05rem;">
-          At Bloomy Weddings, photography is an art of quiet preservation. We capture the unscripted glances, royal traditions, and timeless beauty of love stories with a classic fine-art touch.
-        </p>
-        <p style="color: var(--text-muted); margin-bottom: 24px; font-size: 1rem;">
-          Over 12 years of fine-art experience across palace venues in Rajasthan, coastal Kerala backwaters, and international destinations has refined our painterly approach to lighting, composition, and emotional depth.
-        </p>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px;">
-          <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-            <div style="color: var(--gold-primary); font-family: var(--font-title); font-weight: 700;">🎥 Sony Cinema Line</div>
-            <div style="font-size: 0.85rem; color: var(--text-muted);">4K 120fps Full-Frame Master Optics</div>
-          </div>
-          <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-            <div style="color: var(--gold-primary); font-family: var(--font-title); font-weight: 700;">🚁 DJI Mavic 3 Pro</div>
-            <div style="font-size: 0.85rem; color: var(--text-muted);">Hasselblad 4K Heritage Aerial Cinema</div>
-          </div>
-        </div>
-
-        <a href="https://wa.me/917025198952?text=Hi%20Bloomy%20Weddings%2C%20I%20would%20like%20to%20know%20more%20about%20your%20classic%20photography%20packages!" target="_blank" class="btn btn-gold">
-          <span>Connect with Our Director</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <div class="classic-flourish">✤ ⚜ ✤</div>
-
-  <!-- Testimonials Section -->
-  <section id="reviews" class="section">
-    <div class="section-header">
-      <div class="section-subtitle">Pure Emotion & Praise</div>
-      <h2 class="section-title">CLIENT <span class="gold-gradient-text">LOVE STORIES</span></h2>
-      <p class="section-desc">Words from couples and clients who entrusted Bloomy Weddings to preserve their most cherished memories.</p>
-    </div>
-
-    <div class="testimonials-grid" id="testimonials-grid">
-      <!-- Injected dynamically by app.js -->
-    </div>
-  </section>
-
-  <!-- FAQs Section -->
-  <section id="faqs" class="section">
-    <div class="section-header">
-      <div class="section-subtitle">Common Inquiries</div>
-      <h2 class="section-title">FREQUENTLY ASKED <span class="gold-gradient-text">QUESTIONS</span></h2>
-      <p class="section-desc">Everything you need to know about reserving Bloomy Weddings for your occasion.</p>
-    </div>
-
-    <div class="faq-list" id="faq-list">
-      <!-- Injected dynamically by app.js -->
-    </div>
-  </section>
-
-  <div class="classic-flourish">✤ ⚜ ✤</div>
-
-  <!-- Contact Section -->
+  <!-- Contact Section (Moved Above About Section) -->
   <section id="contact" class="section">
     <div class="section-header">
       <div class="section-subtitle">Reserve Your Date</div>
@@ -324,6 +280,71 @@
           <span>Chat Live on WhatsApp</span>
         </a>
       </div>
+    </div>
+  </section>
+
+  <div class="classic-flourish">✤ ⚜ ✤</div>
+
+  <!-- About Section -->
+  <section id="about" class="section">
+    <div class="about-grid">
+      <div class="about-img-box">
+        <img src="assets/classic_wedding.jpg" alt="Bloomy Weddings Photography Craft">
+      </div>
+
+      <div>
+        <div class="script-text">Our Heritage & Craft</div>
+        <h2 class="section-title">ABOUT <span class="gold-gradient-text">BLOOMY WEDDINGS</span></h2>
+        <p style="color: var(--text-muted); margin-bottom: 18px; font-size: 1.05rem;">
+          At Bloomy Weddings, photography is an art of quiet preservation. We capture the unscripted glances, royal traditions, and timeless beauty of love stories with a classic fine-art touch.
+        </p>
+        <p style="color: var(--text-muted); margin-bottom: 24px; font-size: 1rem;">
+          Over 12 years of fine-art experience across palace venues in Rajasthan, coastal Kerala backwaters, and international destinations has refined our painterly approach to lighting, composition, and emotional depth.
+        </p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px;">
+          <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+            <div style="color: var(--gold-primary); font-family: var(--font-title); font-weight: 700;">🎥 Sony Cinema Line</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted);">4K 120fps Full-Frame Master Optics</div>
+          </div>
+          <div style="background: var(--bg-card); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+            <div style="color: var(--gold-primary); font-family: var(--font-title); font-weight: 700;">🚁 DJI Mavic 3 Pro</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted);">Hasselblad 4K Heritage Aerial Cinema</div>
+          </div>
+        </div>
+
+        <a href="https://wa.me/917025198952?text=Hi%20Bloomy%20Weddings%2C%20I%20would%20like%20to%20know%20more%20about%20your%20classic%20photography%20packages!" target="_blank" class="btn btn-gold">
+          <span>Connect with Our Director</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="classic-flourish">✤ ⚜ ✤</div>
+
+  <!-- Testimonials Section -->
+  <section id="reviews" class="section">
+    <div class="section-header">
+      <div class="section-subtitle">Pure Emotion & Praise</div>
+      <h2 class="section-title">CLIENT <span class="gold-gradient-text">LOVE STORIES</span></h2>
+      <p class="section-desc">Words from couples and clients who entrusted Bloomy Weddings to preserve their most cherished memories.</p>
+    </div>
+
+    <div class="testimonials-grid" id="testimonials-grid">
+      <!-- Injected dynamically by app.js -->
+    </div>
+  </section>
+
+  <!-- FAQs Section -->
+  <section id="faqs" class="section">
+    <div class="section-header">
+      <div class="section-subtitle">Common Inquiries</div>
+      <h2 class="section-title">FREQUENTLY ASKED <span class="gold-gradient-text">QUESTIONS</span></h2>
+      <p class="section-desc">Everything you need to know about reserving Bloomy Weddings for your occasion.</p>
+    </div>
+
+    <div class="faq-list" id="faq-list">
+      <!-- Injected dynamically by app.js -->
     </div>
   </section>
 
@@ -431,6 +452,7 @@
         <h4>Navigation</h4>
         <ul class="footer-links">
           <li><a href="#portfolio">Classic Gallery</a></li>
+          <li><a href="#contact">Book Consultation</a></li>
           <li><a href="#about">About Bloomy Team</a></li>
           <li><a href="#reviews">Love Stories</a></li>
           <li><a href="#faqs">Inquiry FAQs</a></li>

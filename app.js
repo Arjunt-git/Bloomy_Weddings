@@ -376,3 +376,18 @@ function showToast(message) {
     toast.style.opacity = "0";
   }, 4000);
 }
+
+/* Mobile Navigation Menu Toggle */
+function toggleMobileMenu() {
+  const drawer = document.getElementById("mobile-drawer");
+  if (drawer) {
+    drawer.classList.toggle("active");
+  }
+}
+
+function closeMobileMenu() {
+  const drawer = document.getElementById("mobile-drawer");
+  if (drawer) {
+    drawer.classList.remove("active");
+  }
+}
