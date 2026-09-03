@@ -1,6 +1,7 @@
 /* 
-  BLOOMY WEDDINGS - Classic Edition Design System & DSLR Camera Animations
-  Aesthetic: Timeless Ivory & Royal Antique Gold, DSLR Shutter Flash, Viewfinder HUD, Aperture Rotation
+  BLOOMY WEDDINGS - Classic Edition Design System
+  Aesthetic: Timeless Ivory & Royal Antique Gold, Classic Arched Frames & Fine Art Editorial Layout
+  Typography: Cinzel / Cormorant Garamond / EB Garamond / Alex Brush
 */
 
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Alex+Brush&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
@@ -88,233 +89,6 @@ body {
   overflow-x: hidden;
   position: relative;
   transition: background-color 0.4s ease, color 0.4s ease;
-}
-
-/* Official Logo Image Styling */
-.brand-logo-img {
-  height: 52px;
-  width: auto;
-  max-width: 220px;
-  object-fit: contain;
-  border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
-  display: block;
-}
-.brand-logo:hover .brand-logo-img {
-  transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(184, 134, 11, 0.3);
-}
-
-/* ----------------------------------------------------
-   DSLR CAMERA FLASH & ANIMATIONS
----------------------------------------------------- */
-#camera-flash {
-  position: fixed;
-  inset: 0;
-  background: #ffffff;
-  z-index: 9999;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.05s ease-out;
-}
-#camera-flash.flash-active {
-  opacity: 0.95;
-  transition: opacity 0.01s ease-in;
-}
-
-/* Rotating Aperture Animation */
-.aperture-spin {
-  animation: spinAperture 12s linear infinite;
-  transform-origin: center;
-}
-.aperture-spin:hover {
-  animation-duration: 3s;
-}
-
-@keyframes spinAperture {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* DSLR Viewfinder HUD Overlay */
-.viewfinder-container {
-  position: relative;
-  overflow: hidden;
-}
-.viewfinder-hud {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.4) 100%);
-}
-.viewfinder-container:hover .viewfinder-hud {
-  opacity: 1;
-}
-
-.hud-corner {
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  border: 2px solid var(--gold-primary);
-}
-.hud-corner.top-left { top: 20px; left: 20px; border-right: none; border-bottom: none; }
-.hud-corner.top-right { top: 20px; right: 20px; border-left: none; border-bottom: none; }
-.hud-corner.bottom-left { bottom: 20px; left: 20px; border-right: none; border-top: none; }
-.hud-corner.bottom-right { bottom: 20px; right: 20px; border-left: none; border-top: none; }
-
-.hud-center-crosshair {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 36px;
-  height: 36px;
-  border: 1px dashed var(--gold-primary);
-  border-radius: 50%;
-}
-.hud-center-crosshair::before {
-  content: '';
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 6px; height: 6px;
-  background: var(--gold-primary);
-  border-radius: 50%;
-}
-
-.hud-info-bar {
-  position: absolute;
-  top: 14px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(8px);
-  border: 1px solid var(--gold-primary);
-  padding: 4px 14px;
-  border-radius: var(--radius-pill);
-  font-family: var(--font-sans);
-  font-size: 0.72rem;
-  color: var(--gold-light);
-  display: flex;
-  gap: 12px;
-  letter-spacing: 0.08em;
-  font-weight: 700;
-}
-.hud-focus-status {
-  color: #25d366;
-  animation: pulseAF 1s infinite alternate;
-}
-
-@keyframes pulseAF {
-  from { opacity: 0.6; }
-  to { opacity: 1; }
-}
-
-/* DSLR Shutter Trigger Button */
-.dslr-shutter-trigger {
-  background: var(--bg-card);
-  border: 1px solid var(--gold-primary);
-  color: var(--gold-primary);
-  padding: 6px 14px;
-  border-radius: var(--radius-pill);
-  font-family: var(--font-sans);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: var(--transition);
-  box-shadow: var(--shadow-gold);
-}
-.dslr-shutter-trigger:hover {
-  background: var(--gold-gradient);
-  color: #ffffff;
-  transform: scale(1.04);
-}
-.shutter-red-dot {
-  width: 8px;
-  height: 8px;
-  background: #e63946;
-  border-radius: 50%;
-  box-shadow: 0 0 6px #e63946;
-  animation: pulseDot 1.2s infinite;
-}
-
-@keyframes pulseDot {
-  0% { transform: scale(0.8); opacity: 0.7; }
-  50% { transform: scale(1.2); opacity: 1; }
-  100% { transform: scale(0.8); opacity: 0.7; }
-}
-
-/* Interactive DSLR Camera Lens Simulator Section */
-.dslr-interactive-card {
-  background: var(--bg-card);
-  border: 3px double var(--border-glow);
-  border-radius: var(--radius-lg);
-  padding: 32px 40px;
-  max-width: 1320px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 40px;
-  box-shadow: var(--shadow-soft);
-}
-.dslr-lens-graphic {
-  position: relative;
-  width: 140px;
-  height: 140px;
-  flex-shrink: 0;
-}
-.lens-outer-ring {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: radial-gradient(circle, #2a2225 0%, #0f0c0d 100%);
-  border: 4px solid var(--gold-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 24px rgba(184, 134, 11, 0.3);
-  position: relative;
-}
-.lens-focus-ring {
-  width: 80%;
-  height: 80%;
-  border-radius: 50%;
-  border: 2px dashed var(--gold-light);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.dslr-interactive-card:hover .lens-focus-ring {
-  transform: rotate(180deg);
-}
-.lens-aperture-blades {
-  width: 60%;
-  height: 60%;
-}
-.lens-aperture-svg {
-  width: 100%;
-  height: 100%;
-  animation: spinAperture 8s linear infinite;
-}
-.camera-spec-pill {
-  background: var(--bg-dark);
-  border: 1px solid var(--border-subtle);
-  color: var(--gold-primary);
-  padding: 8px 16px;
-  border-radius: var(--radius-pill);
-  font-family: var(--font-sans);
-  font-size: 0.8rem;
-  font-weight: 600;
 }
 
 /* Custom Scrollbar */
@@ -411,6 +185,16 @@ h1, h2, h3, .classic-heading {
 .top-bar-link:hover {
   color: var(--gold-primary);
 }
+.top-badge {
+  background: var(--gold-glow);
+  color: var(--gold-primary);
+  border: 1px solid var(--gold-primary);
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
 
 /* Navigation Header */
 .navbar {
@@ -438,6 +222,38 @@ h1, h2, h3, .classic-heading {
   align-items: center;
   gap: 14px;
   text-decoration: none;
+}
+.brand-crest {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px double var(--gold-primary);
+  background: var(--bg-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold-primary);
+  font-family: var(--font-title);
+  font-weight: 800;
+  font-size: 1.5rem;
+  box-shadow: var(--shadow-gold);
+}
+.brand-name {
+  font-family: var(--font-title);
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--text-main);
+  display: block;
+}
+.brand-sub {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  color: var(--gold-primary);
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  display: block;
+  margin-top: -2px;
 }
 
 .nav-menu {
@@ -573,7 +389,6 @@ h1, h2, h3, .classic-heading {
 .btn-icon:hover {
   border-color: var(--gold-primary);
   color: var(--gold-primary);
-  transform: scale(1.05);
 }
 
 /* Classic Hero Section */
@@ -721,7 +536,7 @@ h1, h2, h3, .classic-heading {
 
 /* Classic Services Grid */
 .services-grid {
-  display grid;
+  display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 32px;
 }
@@ -749,10 +564,10 @@ h1, h2, h3, .classic-heading {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.4s ease;
 }
 .service-card:hover .service-img {
-  transform: scale(1.08);
+  opacity: 0.95;
 }
 .service-badge {
   position: absolute;
@@ -872,10 +687,10 @@ h1, h2, h3, .classic-heading {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.8s ease;
+  transition: opacity 0.4s ease;
 }
 .gallery-item:hover .gallery-img {
-  transform: scale(1.08);
+  opacity: 0.95;
 }
 .gallery-overlay {
   position: absolute;
@@ -1227,35 +1042,9 @@ h1, h2, h3, .classic-heading {
   justify-content: center;
   box-shadow: 0 6px 24px rgba(31, 154, 78, 0.35);
   transition: var(--transition);
-  position: relative;
-}
-.whatsapp-btn-circle::before {
-  content: '';
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  border: 2px solid #1f9a4e;
-  animation: pulse-ring 2s infinite;
 }
 .whatsapp-btn-circle:hover {
-  transform: scale(1.1);
   background: #188040;
-}
-.whatsapp-tooltip {
-  background: var(--bg-card);
-  border: 1px solid var(--border-glow);
-  color: var(--text-main);
-  padding: 8px 16px;
-  border-radius: var(--radius-pill);
-  font-family: var(--font-sans);
-  font-size: 0.8rem;
-  font-weight: 600;
-  box-shadow: var(--shadow-soft);
-}
-
-@keyframes pulse-ring {
-  0% { transform: scale(0.95); opacity: 0.8; }
-  100% { transform: scale(1.4); opacity: 0; }
 }
 
 /* Footer */
@@ -1347,10 +1136,8 @@ h1, h2, h3, .classic-heading {
   .hero-ctas {
     justify-content: center;
   }
-  .estimator-card, .about-grid, .dslr-interactive-card {
+  .estimator-card, .about-grid {
     grid-template-columns: 1fr;
-    flex-direction: column;
-    text-align: center;
   }
   .lightbox-content {
     grid-template-columns: 1fr;

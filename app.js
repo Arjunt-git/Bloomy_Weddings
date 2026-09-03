@@ -1,7 +1,7 @@
 /**
  * BLOOMY WEDDINGS - Classic Edition Application Script
- * Particle canvas, theme switcher, DSLR Shutter & Flash Sound Synthesis,
- * Service cards, filterable gallery, package estimator, upload manager, and WhatsApp integration.
+ * Particle canvas, theme switcher, service cards, filterable gallery,
+ * package quote estimator, custom upload manager, and WhatsApp integration.
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -14,86 +14,10 @@ document.addEventListener("DOMContentLoaded", () => {
   initContactForm();
   initUploadModal();
   initThemeToggle();
-  initDSLRInteractions();
 });
 
 /* ----------------------------------------------------
-   1. DSLR CAMERA SHUTTER & FLASH SOUND SYNTHESIZER
----------------------------------------------------- */
-let audioCtx = null;
-
-function triggerCameraShutterSound() {
-  // 1. Flash Visual Effect
-  const flash = document.getElementById("camera-flash");
-  if (flash) {
-    flash.classList.add("flash-active");
-    setTimeout(() => flash.classList.remove("flash-active"), 120);
-  }
-
-  // 2. Rotate Lens Focus Ring
-  const lensRing = document.getElementById("lens-ring-spinner");
-  if (lensRing) {
-    lensRing.style.transform = `rotate(${Math.floor(Math.random() * 360)}deg)`;
-  }
-
-  // 3. Web Audio API Camera Shutter Sound Synthesis
-  try {
-    if (!audioCtx) {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-
-    if (audioCtx.state === 'suspended') {
-      audioCtx.resume();
-    }
-
-    const now = audioCtx.currentTime;
-
-    // First Click: Shutter Curtain Release (High pitch snap)
-    const osc1 = audioCtx.createOscillator();
-    const gain1 = audioCtx.createGain();
-    osc1.type = 'triangle';
-    osc1.frequency.setValueAtTime(800, now);
-    osc1.frequency.exponentialRampToValueAtTime(120, now + 0.05);
-
-    gain1.gain.setValueAtTime(0.5, now);
-    gain1.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
-
-    osc1.connect(gain1);
-    gain1.connect(audioCtx.destination);
-    osc1.start(now);
-    osc1.stop(now + 0.05);
-
-    // Second Click: Mirror Slap & Curtain Return (Deep mechanical thud)
-    const osc2 = audioCtx.createOscillator();
-    const gain2 = audioCtx.createGain();
-    osc2.type = 'sine';
-    osc2.frequency.setValueAtTime(220, now + 0.06);
-    osc2.frequency.exponentialRampToValueAtTime(40, now + 0.12);
-
-    gain2.gain.setValueAtTime(0.6, now + 0.06);
-    gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.14);
-
-    osc2.connect(gain2);
-    gain2.connect(audioCtx.destination);
-    osc2.start(now + 0.06);
-    osc2.stop(now + 0.14);
-
-  } catch (e) {
-    console.log("AudioContext sound synthesis fallback:", e);
-  }
-}
-
-function initDSLRInteractions() {
-  // Attach DSLR shutter click to all gallery items & action buttons
-  document.querySelectorAll('.gallery-item, .service-card, .btn-gold').forEach(el => {
-    el.addEventListener('click', () => {
-      triggerCameraShutterSound();
-    });
-  });
-}
-
-/* ----------------------------------------------------
-   2. Ambient Sparkle Particles Canvas
+   1. Ambient Sparkle Particles Canvas
 ---------------------------------------------------- */
 function initParticlesCanvas() {
   const canvas = document.getElementById("particles-canvas");
@@ -149,7 +73,7 @@ function initParticlesCanvas() {
 }
 
 /* ----------------------------------------------------
-   3. Theme Switcher (Classic Ivory vs Dark Velvet)
+   2. Theme Switcher (Classic Ivory vs Dark Velvet)
 ---------------------------------------------------- */
 function initThemeToggle() {
   const saved = localStorage.getItem("bloomy_classic_theme");
@@ -180,28 +104,15 @@ function updateThemeBtnText(isDark) {
 }
 
 /* ----------------------------------------------------
-   4. Render 4 Core Photography Services
+   3. Render 4 Core Photography Services
 ---------------------------------------------------- */
 function renderServices() {
   const container = document.getElementById("services-grid");
   if (!container) return;
 
   container.innerHTML = BLOOMY_DATA.services.map(svc => `
-    <div class="service-card viewfinder-container" id="${svc.id}" onclick="triggerCameraShutterSound()">
+    <div class="service-card" id="${svc.id}">
       <div class="service-img-wrapper">
-        <!-- DSLR Viewfinder HUD -->
-        <div class="viewfinder-hud">
-          <div class="hud-corner top-left"></div>
-          <div class="hud-corner top-right"></div>
-          <div class="hud-corner bottom-left"></div>
-          <div class="hud-corner bottom-right"></div>
-          <div class="hud-info-bar">
-            <span>f/1.8</span>
-            <span>1/500s</span>
-            <span class="hud-focus-status">AF READY</span>
-          </div>
-        </div>
-
         <img src="${svc.image}" alt="${svc.title}" class="service-img" loading="lazy">
         <span class="service-badge">${svc.badge}</span>
       </div>
@@ -212,10 +123,10 @@ function renderServices() {
           ${svc.highlights.map(h => `<li>${h}</li>`).join('')}
         </ul>
         <div class="service-footer">
-          <button class="btn btn-outline" style="flex:1;" onclick="event.stopPropagation(); filterPortfolioFromService('${svc.category}')">
+          <button class="btn btn-outline" style="flex:1;" onclick="filterPortfolioFromService('${svc.category}')">
             <span>View Gallery</span>
           </button>
-          <a href="https://wa.me/917025198952?text=Hello%20Bloomy%20Weddings%2C%20I%20am%20interested%20in%20your%20classic%20${encodeURIComponent(svc.title)}%20services." target="_blank" class="btn btn-whatsapp" title="WhatsApp Enquiry" onclick="event.stopPropagation()">
+          <a href="https://wa.me/917025198952?text=Hello%20Bloomy%20Weddings%2C%20I%20am%20interested%20in%20your%20classic%20${encodeURIComponent(svc.title)}%20services." target="_blank" class="btn btn-whatsapp" title="WhatsApp Enquiry">
             <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
             <span>Enquire</span>
           </a>
@@ -240,7 +151,7 @@ function filterPortfolioFromService(cat) {
 }
 
 /* ----------------------------------------------------
-   5. Filterable Portfolio Gallery & Lightbox
+   4. Filterable Portfolio Gallery & Lightbox
 ---------------------------------------------------- */
 let currentPortfolio = getCustomPortfolio();
 
@@ -260,19 +171,7 @@ function renderPortfolio(category = 'all') {
   }
 
   container.innerHTML = filtered.map(item => `
-    <div class="gallery-item viewfinder-container" onclick="triggerCameraShutterSound(); openLightbox('${item.id}')">
-      <!-- DSLR Viewfinder HUD -->
-      <div class="viewfinder-hud">
-        <div class="hud-corner top-left"></div>
-        <div class="hud-corner top-right"></div>
-        <div class="hud-corner bottom-left"></div>
-        <div class="hud-corner bottom-right"></div>
-        <div class="hud-info-bar">
-          <span>RAW 14-BIT</span>
-          <span class="hud-focus-status">● LOCKED</span>
-        </div>
-      </div>
-
+    <div class="gallery-item" onclick="openLightbox('${item.id}')">
       <img src="${item.image}" alt="${item.title}" class="gallery-img" loading="lazy">
       <div class="gallery-overlay">
         <span class="gallery-tag">${item.tag || item.category}</span>
@@ -312,7 +211,7 @@ function closeLightbox() {
 }
 
 /* ----------------------------------------------------
-   6. Interactive Package & Quote Estimator
+   5. Interactive Package & Quote Estimator
 ---------------------------------------------------- */
 let selectedAddons = new Set();
 
@@ -423,7 +322,7 @@ I would like to check availability and book a consultation!`;
 }
 
 /* ----------------------------------------------------
-   7. Render Testimonials & FAQs
+   6. Render Testimonials & FAQs
 ---------------------------------------------------- */
 function renderTestimonials() {
   const container = document.getElementById("testimonials-grid");
@@ -469,7 +368,7 @@ function toggleFAQ(index) {
 }
 
 /* ----------------------------------------------------
-   8. Contact Form & Custom Upload
+   7. Contact Form & Custom Upload
 ---------------------------------------------------- */
 function initContactForm() {
   const form = document.getElementById("booking-contact-form");
