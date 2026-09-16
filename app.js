@@ -6,6 +6,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   initParticlesCanvas();
+  initPhotographerAdminState();
   renderServices();
   renderPortfolio('all');
   renderTestimonials();
@@ -150,13 +151,81 @@ function filterPortfolioFromService(cat) {
 }
 
 /* ----------------------------------------------------
-   4. Filterable Portfolio Gallery & Lightbox
----------------------------------------------------- */
+   4. Photographer Admin Mode & Filterable Portfolio
+ ---------------------------------------------------- */
+let isPhotographerAdmin = false;
 let currentPortfolio = getCustomPortfolio();
+
+function initPhotographerAdminState() {
+  isPhotographerAdmin = sessionStorage.getItem("bloomy_photographer_admin") === "true";
+  updateAdminUIState();
+}
+
+function updateAdminUIState() {
+  const adminBar = document.getElementById("photographer-admin-bar");
+  const navBtn = document.getElementById("photographer-nav-btn");
+
+  if (adminBar) {
+    adminBar.style.display = isPhotographerAdmin ? "block" : "none";
+  }
+  if (navBtn) {
+    navBtn.innerHTML = isPhotographerAdmin 
+      ? `<span>⚙️ Studio Admin Active</span>` 
+      : `<span>📷 Photographer Portal</span>`;
+  }
+}
+
+function openPhotographerLogin() {
+  if (isPhotographerAdmin) {
+    showToast("Photographer Studio Mode is active! You can reorder, edit, and delete photos directly in the gallery.");
+    const section = document.getElementById("portfolio");
+    if (section) section.scrollIntoView({ behavior: 'smooth' });
+    return;
+  }
+  const modal = document.getElementById("photographer-login-modal");
+  if (modal) modal.classList.add("active");
+}
+
+function closePhotographerLogin() {
+  const modal = document.getElementById("photographer-login-modal");
+  if (modal) modal.classList.remove("active");
+}
+
+function attemptPhotographerLogin(e) {
+  e.preventDefault();
+  const userInput = document.getElementById("photographer-username");
+  const passInput = document.getElementById("photographer-passcode");
+  
+  if (!userInput || !passInput) return;
+  const username = userInput.value.trim().toLowerCase();
+  const password = passInput.value.trim();
+
+  // Accepted credentials: Username "bloomy" or "admin", Password "bloomy2026" or "admin2026"
+  if ((username === "bloomy" || username === "admin" || username === "photographer") && (password === "bloomy2026" || password === "admin2026")) {
+    isPhotographerAdmin = true;
+    sessionStorage.setItem("bloomy_photographer_admin", "true");
+    updateAdminUIState();
+    closePhotographerLogin();
+    renderPortfolio();
+    showToast("🔓 Welcome, Photographer! Studio Mode Unlocked. You can now add, reorder, edit, and remove photos.");
+  } else {
+    alert("Invalid Username or Password.\n\nDefault Credentials:\nUsername: bloomy\nPassword: bloomy2026");
+  }
+}
+
+function photographerLogout() {
+  isPhotographerAdmin = false;
+  sessionStorage.removeItem("bloomy_photographer_admin");
+  updateAdminUIState();
+  renderPortfolio();
+  showToast("Logged out of Photographer Studio Mode.");
+}
 
 function renderPortfolio(category = 'all') {
   const container = document.getElementById("gallery-grid");
   if (!container) return;
+
+  currentPortfolio = getCustomPortfolio();
 
   const filtered = category === 'all' 
     ? currentPortfolio 
@@ -169,16 +238,110 @@ function renderPortfolio(category = 'all') {
     return;
   }
 
-  container.innerHTML = filtered.map(item => `
-    <div class="gallery-item" onclick="openLightbox('${item.id}')">
-      <img src="${item.image}" alt="${item.title}" class="gallery-img" loading="lazy">
-      <div class="gallery-overlay">
-        <span class="gallery-tag">${item.tag || item.category}</span>
-        <h4 class="gallery-title">${item.title}</h4>
-        <p class="gallery-location">📍 ${item.location}</p>
+  container.innerHTML = filtered.map((item, idx) => {
+    const realIndex = currentPortfolio.findIndex(i => i.id === item.id);
+    
+    // Admin action controls when logged in
+    const adminControlsHtml = isPhotographerAdmin ? `
+      <div class="admin-card-actions" onclick="event.stopPropagation()">
+        <div style="display: flex; gap: 4px;">
+          <button class="admin-action-btn" onclick="movePortfolioItem(${realIndex}, -1)" title="Move Left / Earlier" ${realIndex === 0 ? 'disabled style="opacity:0.4;"' : ''}>⬅️</button>
+          <button class="admin-action-btn" onclick="movePortfolioItem(${realIndex}, 1)" title="Move Right / Later" ${realIndex === currentPortfolio.length - 1 ? 'disabled style="opacity:0.4;"' : ''}>➡️</button>
+        </div>
+        <div style="display: flex; gap: 4px;">
+          <button class="admin-action-btn" onclick="openEditModal('${item.id}')" title="Edit Photo Details">✏️ Edit</button>
+          <button class="admin-action-btn danger" onclick="deletePortfolioItem('${item.id}')" title="Delete Photo">🗑️ Delete</button>
+        </div>
       </div>
-    </div>
-  `).join('');
+    ` : '';
+
+    return `
+      <div class="gallery-item" onclick="openLightbox('${item.id}')" style="position: relative;">
+        ${adminControlsHtml}
+        <img src="${item.image}" alt="${item.title}" class="gallery-img" loading="lazy">
+        <div class="gallery-overlay">
+          <span class="gallery-tag">${item.tag || item.category}</span>
+          <h4 class="gallery-title">${item.title}</h4>
+          ${item.location ? `<p class="gallery-location">📍 ${item.location}</p>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+/* ----------------------------------------------------
+   Reordering, Deleting & Editing Portfolio Items
+---------------------------------------------------- */
+function movePortfolioItem(index, direction) {
+  const newIndex = index + direction;
+  if (newIndex < 0 || newIndex >= currentPortfolio.length) return;
+
+  // Swap elements
+  const temp = currentPortfolio[index];
+  currentPortfolio[index] = currentPortfolio[newIndex];
+  currentPortfolio[newIndex] = temp;
+
+  saveCustomPortfolio(currentPortfolio);
+  renderPortfolio();
+  showToast(`Moved "${temp.title}" ${direction < 0 ? 'earlier' : 'later'} in position.`);
+}
+
+function deletePortfolioItem(id) {
+  const item = currentPortfolio.find(i => i.id === id);
+  if (!item) return;
+
+  if (confirm(`Are you sure you want to delete "${item.title}" from your live portfolio?`)) {
+    currentPortfolio = currentPortfolio.filter(i => i.id !== id);
+    saveCustomPortfolio(currentPortfolio);
+    renderPortfolio();
+    showToast(`Removed "${item.title}" from portfolio.`);
+  }
+}
+
+function openEditModal(id) {
+  const item = currentPortfolio.find(i => i.id === id);
+  if (!item) return;
+
+  document.getElementById("edit-photo-id").value = item.id;
+  document.getElementById("edit-photo-title").value = item.title;
+  document.getElementById("edit-photo-category").value = item.category;
+  document.getElementById("edit-photo-desc").value = item.desc || "";
+
+  const modal = document.getElementById("edit-photo-modal");
+  if (modal) modal.classList.add("active");
+}
+
+function closeEditModal() {
+  const modal = document.getElementById("edit-photo-modal");
+  if (modal) modal.classList.remove("active");
+}
+
+function savePhotoEdit(e) {
+  e.preventDefault();
+  const id = document.getElementById("edit-photo-id").value;
+  const title = document.getElementById("edit-photo-title").value.trim();
+  const category = document.getElementById("edit-photo-category").value;
+  const desc = document.getElementById("edit-photo-desc").value.trim();
+
+  const item = currentPortfolio.find(i => i.id === id);
+  if (item) {
+    item.title = title;
+    item.category = category;
+    item.desc = desc;
+    saveCustomPortfolio(currentPortfolio);
+    renderPortfolio();
+    closeEditModal();
+    showToast(`Updated "${title}" successfully.`);
+  }
+}
+
+function resetPortfolioDefault() {
+  if (confirm("Reset portfolio back to original default setup? Any custom additions/reorders will be cleared.")) {
+    localStorage.removeItem("bloomy_custom_portfolio");
+    currentPortfolio = BLOOMY_DATA.portfolio;
+    renderPortfolio();
+    showToast("Portfolio reset to default.");
+  }
 }
 
 function openLightbox(id) {
@@ -194,11 +357,22 @@ function openLightbox(id) {
 
   imgBox.src = item.image;
   imgBox.alt = item.title;
+  imgBox.setAttribute("data-fullscreen-src", item.image);
+  imgBox.setAttribute("data-fullscreen-caption", item.title);
   title.textContent = item.title;
-  location.textContent = `📍 ${item.location}`;
+  
+  if (item.location) {
+    location.textContent = `📍 ${item.location}`;
+    location.style.display = 'block';
+  } else {
+    location.textContent = '';
+    location.style.display = 'none';
+  }
+
   desc.textContent = item.desc || "Fine-art classic photography by Bloomy Weddings.";
   
-  const waText = encodeURIComponent(`Hi Bloomy Weddings! I loved your classic photography shoot "${item.title}" (${item.location}). I would like to check available dates and pricing.`);
+  const locStr = item.location ? ` (${item.location})` : '';
+  const waText = encodeURIComponent(`Hi Bloomy Weddings! I loved your classic photography shoot "${item.title}"${locStr}. I would like to check available dates and pricing.`);
   waBtn.href = `https://wa.me/917025198952?text=${waText}`;
 
   modal.classList.add("active");
@@ -208,6 +382,40 @@ function closeLightbox() {
   const modal = document.getElementById("lightbox-modal");
   if (modal) modal.classList.remove("active");
 }
+
+/* Dedicated Full-Size Photo Modal Handler */
+function triggerCurrentFullscreen() {
+  const imgBox = document.getElementById("lightbox-img");
+  if (!imgBox) return;
+  const src = imgBox.getAttribute("data-fullscreen-src") || imgBox.src;
+  const caption = imgBox.getAttribute("data-fullscreen-caption") || "";
+  openFullscreenPhoto(src, caption);
+}
+
+function openFullscreenPhoto(src, caption = "") {
+  const modal = document.getElementById("fullscreen-modal");
+  const fullImg = document.getElementById("fullscreen-img");
+  const capDiv = document.getElementById("fullscreen-caption");
+
+  if (!modal || !fullImg) return;
+  fullImg.src = src;
+  if (capDiv) capDiv.textContent = caption ? `✦ ${caption} ✦` : "";
+
+  modal.classList.add("active");
+}
+
+function closeFullscreenPhoto() {
+  const modal = document.getElementById("fullscreen-modal");
+  if (modal) modal.classList.remove("active");
+}
+
+// Global Keyboard Handler for closing modals via Escape key
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    closeFullscreenPhoto();
+    closeLightbox();
+  }
+});
 
 
 
