@@ -164,6 +164,13 @@ function initPhotographerAdminState() {
 function updateAdminUIState() {
   const adminBar = document.getElementById("photographer-admin-bar");
   const navBtn = document.getElementById("photographer-nav-btn");
+  const isMasterAdmin = sessionStorage.getItem("bloomy_is_master_admin") === "true";
+
+  // Show/hide the admin dashboard button (master admin only)
+  const dashboardBtn = document.getElementById("admin-dashboard-btn");
+  if (dashboardBtn) {
+    dashboardBtn.style.display = (isPhotographerAdmin && isMasterAdmin) ? "inline-flex" : "none";
+  }
 
   if (adminBar) {
     adminBar.style.display = isPhotographerAdmin ? "block" : "none";
@@ -200,22 +207,39 @@ function attemptPhotographerLogin(e) {
   const username = userInput.value.trim().toLowerCase();
   const password = passInput.value.trim();
 
-  // Accepted credentials: Username "bloomy" or "admin", Password "bloomy2026" or "admin2026"
-  if ((username === "bloomy" || username === "admin" || username === "photographer") && (password === "bloomy2026" || password === "admin2026")) {
+  // Check master admin credentials
+  const isMasterAdmin = (username === "bloomy" || username === "admin" || username === "photographer")
+    && (password === "bloomy2026" || password === "admin2026");
+
+  // Check employee accounts stored in localStorage
+  const accounts = getEmployeeAccounts();
+  const isEmployee = !isMasterAdmin && accounts[username] && accounts[username] === password;
+
+  if (isMasterAdmin) {
     isPhotographerAdmin = true;
     sessionStorage.setItem("bloomy_photographer_admin", "true");
+    sessionStorage.setItem("bloomy_is_master_admin", "true");
     updateAdminUIState();
     closePhotographerLogin();
     renderPortfolio();
-    showToast("🔓 Welcome, Photographer! Studio Mode Unlocked. You can now add, reorder, edit, and remove photos.");
+    showToast("🔓 Welcome, Admin! Studio Mode Unlocked.");
+  } else if (isEmployee) {
+    isPhotographerAdmin = true;
+    sessionStorage.setItem("bloomy_photographer_admin", "true");
+    sessionStorage.setItem("bloomy_is_master_admin", "false");
+    updateAdminUIState();
+    closePhotographerLogin();
+    renderPortfolio();
+    showToast("🔓 Welcome, " + username + "! Studio Mode Unlocked.");
   } else {
-    alert("Invalid Username or Password.\n\nDefault Credentials:\nUsername: bloomy\nPassword: bloomy2026");
+    alert("Invalid Username or Password.\n\nPlease check your credentials and try again.");
   }
 }
 
 function photographerLogout() {
   isPhotographerAdmin = false;
   sessionStorage.removeItem("bloomy_photographer_admin");
+  sessionStorage.removeItem("bloomy_is_master_admin");
   updateAdminUIState();
   renderPortfolio();
   showToast("Logged out of Photographer Studio Mode.");
@@ -597,5 +621,116 @@ function closeMobileMenu() {
   const drawer = document.getElementById("mobile-drawer");
   if (drawer) {
     drawer.classList.remove("active");
+  }
+}
+
+/* ----------------------------------------------------
+   Admin Employee Dashboard
+---------------------------------------------------- */
+
+/** Retrieve employee accounts from localStorage */
+function getEmployeeAccounts() {
+  try {
+    const raw = localStorage.getItem("bloomy_employee_accounts");
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) {
+    return {};
+  }
+}
+
+/** Persist employee accounts to localStorage */
+function saveEmployeeAccounts(accounts) {
+  localStorage.setItem("bloomy_employee_accounts", JSON.stringify(accounts));
+}
+
+/** Open the admin dashboard modal (master admin only) */
+function openAdminDashboard() {
+  if (!isPhotographerAdmin || sessionStorage.getItem("bloomy_is_master_admin") !== "true") {
+    showToast("Access denied. Admin only.");
+    return;
+  }
+  renderEmployeeList();
+  const modal = document.getElementById("admin-dashboard-modal");
+  if (modal) modal.classList.add("active");
+}
+
+/** Close the admin dashboard modal */
+function closeAdminDashboard() {
+  const modal = document.getElementById("admin-dashboard-modal");
+  if (modal) modal.classList.remove("active");
+}
+
+/** Render the employee list inside the dashboard */
+function renderEmployeeList() {
+  const container = document.getElementById("admin-employee-list");
+  if (!container) return;
+
+  const accounts = getEmployeeAccounts();
+  const keys = Object.keys(accounts);
+
+  if (keys.length === 0) {
+    container.innerHTML = `<div class="admin-emp-empty">No employee accounts yet. Create one above.</div>`;
+    return;
+  }
+
+  container.innerHTML = keys.map(username => `
+    <div class="admin-emp-row">
+      <div class="admin-emp-username">${username}</div>
+      <button class="admin-emp-delete-btn" onclick="deleteEmployee('${username}')">🗑 Remove</button>
+    </div>
+  `).join('');
+}
+
+/** Create a new employee account */
+function createEmployee(e) {
+  e.preventDefault();
+  const usernameInput = document.getElementById("new-emp-username");
+  const passwordInput = document.getElementById("new-emp-password");
+
+  if (!usernameInput || !passwordInput) return;
+
+  const username = usernameInput.value.trim().toLowerCase();
+  const password = passwordInput.value.trim();
+
+  if (!username || !password) {
+    showToast("Please fill in both username and password.");
+    return;
+  }
+
+  // Reserved usernames cannot be overwritten
+  const reserved = ["bloomy", "admin", "photographer"];
+  if (reserved.includes(username)) {
+    showToast("That username is reserved. Choose a different one.");
+    return;
+  }
+
+  const accounts = getEmployeeAccounts();
+
+  if (accounts[username]) {
+    showToast(`Username "${username}" already exists.`);
+    return;
+  }
+
+  accounts[username] = password;
+  saveEmployeeAccounts(accounts);
+  renderEmployeeList();
+
+  // Reset form
+  usernameInput.value = "";
+  passwordInput.value = "";
+
+  showToast(`Employee account "${username}" created successfully!`);
+}
+
+/** Delete an employee account */
+function deleteEmployee(username) {
+  if (!confirm(`Remove employee account "${username}"? They will no longer be able to log in.`)) return;
+
+  const accounts = getEmployeeAccounts();
+  if (accounts[username] !== undefined) {
+    delete accounts[username];
+    saveEmployeeAccounts(accounts);
+    renderEmployeeList();
+    showToast(`Employee "${username}" removed.`);
   }
 }

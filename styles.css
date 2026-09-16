@@ -1531,3 +1531,66 @@ h1, h2, h3, .classic-heading {
   }
 }
 
+/* -------------------------------------------------------
+   Admin Employee Dashboard Modal
+------------------------------------------------------- */
+.admin-dashboard-content {
+  grid-template-columns: 1fr !important;
+  max-width: 560px !important;
+  padding: 0 !important;
+}
+
+.admin-emp-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  margin-bottom: 8px;
+  background: var(--bg-card);
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+}
+
+.admin-emp-row:last-child {
+  margin-bottom: 0;
+}
+
+.admin-emp-username {
+  color: var(--text-main);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-emp-username::before {
+  content: '👤';
+  font-size: 1rem;
+}
+
+.admin-emp-delete-btn {
+  background: transparent;
+  border: 1px solid rgba(220, 50, 50, 0.5);
+  color: #dc3232;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.admin-emp-delete-btn:hover {
+  background: rgba(220, 50, 50, 0.1);
+  border-color: #dc3232;
+}
+
+.admin-emp-empty {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  padding: 20px 0;
+  font-style: italic;
+}

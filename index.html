@@ -54,7 +54,7 @@
         <button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.78rem;" onclick="openUploadModal()">+ Add Photo</button>
         <button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.78rem;" onclick="resetPortfolioDefault()">🔄 Reset Portfolio</button>
         <button class="btn btn-gold" style="padding: 4px 12px; font-size: 0.78rem;" onclick="photographerLogout()">Logout</button>
-          <button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.78rem;" onclick="openAdminDashboard()">Admin Dashboard</button>
+          <button id="admin-dashboard-btn" class="btn btn-outline" style="padding: 4px 12px; font-size: 0.78rem; display: none;" onclick="openAdminDashboard()">Admin Dashboard</button>
       </div>
     </div>
   </div>
@@ -453,9 +453,8 @@
         <button type="submit" class="btn btn-gold" style="width: 100%; justify-content: center; padding: 12px;">
           <span>Unlock Admin Customizer</span>
         </button>
-        <div style="font-size: 0.8rem; background: var(--bg-dark); border: 1px solid var(--border-subtle); padding: 12px; border-radius: var(--radius-md); margin-top: 16px; text-align: center;">
-          <div>Username: <strong style="color: var(--gold-primary);">bloomy</strong></div>
-          <div>Password: <strong style="color: var(--gold-primary);">bloomy2026</strong></div>
+        <div style="font-size: 0.8rem; background: var(--bg-dark); border: 1px solid var(--border-subtle); padding: 12px; border-radius: var(--radius-md); margin-top: 16px; text-align: center; color: var(--text-muted);">
+          Enter your credentials provided by the studio admin.
         </div>
       </form>
     </div>
@@ -491,6 +490,41 @@
           <span>Save Changes</span>
         </button>
       </form>
+    </div>
+  </div>
+
+
+  <!-- Admin Employee Dashboard Modal -->
+  <div class="lightbox-modal" id="admin-dashboard-modal">
+    <div class="lightbox-content admin-dashboard-content">
+      <button class="lightbox-close" onclick="closeAdminDashboard()" title="Close">&times;</button>
+      <div style="padding: 36px;">
+        <div style="text-align: center; margin-bottom: 24px;">
+          <div style="font-size: 2rem; margin-bottom: 6px;">&#128737;</div>
+          <h3 style="font-family: var(--font-title); font-size: 1.5rem; color: var(--gold-primary); margin-bottom: 4px;">Admin Dashboard</h3>
+          <p style="color: var(--text-muted); font-size: 0.88rem;">Manage employee accounts for portfolio customization access.</p>
+        </div>
+        <div style="background: var(--bg-dark); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 20px; margin-bottom: 24px;">
+          <h4 style="font-family: var(--font-title); font-size: 1rem; margin-bottom: 16px; color: var(--text-main);">Create New Employee Account</h4>
+          <form id="admin-create-employee-form" onsubmit="createEmployee(event)">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="new-emp-username">Username</label>
+                <input type="text" id="new-emp-username" class="form-input" placeholder="e.g. employee1" required>
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="new-emp-password">Password</label>
+                <input type="password" id="new-emp-password" class="form-input" placeholder="e.g. pass123" required>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-gold" style="width: 100%; justify-content: center; padding: 10px;">Create Account</button>
+          </form>
+        </div>
+        <div>
+          <h4 style="font-family: var(--font-title); font-size: 1rem; margin-bottom: 14px; color: var(--text-main);">Employee Accounts</h4>
+          <div id="admin-employee-list"></div>
+        </div>
+      </div>
     </div>
   </div>
 
