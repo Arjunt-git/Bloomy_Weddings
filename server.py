@@ -22,8 +22,10 @@ from pathlib import Path
 from urllib.parse import unquote, urlparse
 
 ROOT = Path(__file__).resolve().parent
-DATABASE = ROOT / "bloomy.db"
-HOST, PORT = "127.0.0.1", 3000
+DATA_DIR = Path(os.environ.get("BLOOMY_DATA_DIR", ROOT))
+DATABASE = DATA_DIR / "bloomy.db"
+HOST = os.environ.get("HOST", "127.0.0.1")
+PORT = int(os.environ.get("PORT", "3000"))
 EVENT_CLIENTS, EVENT_LOCK = [], threading.Lock()
 
 
@@ -49,6 +51,7 @@ def password_matches(password, stored):
 
 
 def setup_database():
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
     with db() as connection:
         connection.executescript("""
             CREATE TABLE IF NOT EXISTS users (

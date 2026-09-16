@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: bloomy-weddings
+    runtime: python
+    region: singapore
+    buildCommand: ""
+    startCommand: python server.py
+    autoDeployTrigger: commit
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      - key: BLOOMY_DATA_DIR
+        value: /var/data
+    disk:
+      name: bloomy-data
+      mountPath: /var/data
+      sizeGB: 1
