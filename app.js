@@ -177,8 +177,8 @@ function updateAdminUIState() {
   }
   if (navBtn) {
     navBtn.innerHTML = isPhotographerAdmin 
-      ? `<span>⚙️ Studio Admin Active</span>` 
-      : `<span>📷 Photographer Portal</span>`;
+      ? `<span>⚙️ Admin Active</span>`
+      : `<span>🔒 Admin Login</span>`;
   }
 }
 
@@ -207,9 +207,17 @@ function attemptPhotographerLogin(e) {
   const username = userInput.value.trim().toLowerCase();
   const password = passInput.value.trim();
 
-  // Check master admin credentials
-  const isMasterAdmin = (username === "bloomy" || username === "admin" || username === "photographer")
+  // Check the master admin credentials configured in the dashboard.
+  let masterAccount = getMasterAdminAccount();
+  const isLegacyMasterLogin = !hasConfiguredMasterAdminAccount()
+    && (username === "bloomy" || username === "admin" || username === "photographer")
     && (password === "bloomy2026" || password === "admin2026");
+  const isMasterAdmin = (username === masterAccount.username && password === masterAccount.password) || isLegacyMasterLogin;
+  if (isLegacyMasterLogin) {
+    // Keep existing first-login aliases working, then make the chosen one configurable.
+    masterAccount = { username, password };
+    saveMasterAdminAccount(masterAccount);
+  }
 
   // Check employee accounts stored in localStorage
   const accounts = getEmployeeAccounts();
@@ -219,6 +227,7 @@ function attemptPhotographerLogin(e) {
     isPhotographerAdmin = true;
     sessionStorage.setItem("bloomy_photographer_admin", "true");
     sessionStorage.setItem("bloomy_is_master_admin", "true");
+    sessionStorage.setItem("bloomy_current_admin_username", masterAccount.username);
     updateAdminUIState();
     closePhotographerLogin();
     renderPortfolio();
@@ -227,6 +236,7 @@ function attemptPhotographerLogin(e) {
     isPhotographerAdmin = true;
     sessionStorage.setItem("bloomy_photographer_admin", "true");
     sessionStorage.setItem("bloomy_is_master_admin", "false");
+    sessionStorage.setItem("bloomy_current_admin_username", username);
     updateAdminUIState();
     closePhotographerLogin();
     renderPortfolio();
@@ -240,6 +250,7 @@ function photographerLogout() {
   isPhotographerAdmin = false;
   sessionStorage.removeItem("bloomy_photographer_admin");
   sessionStorage.removeItem("bloomy_is_master_admin");
+  sessionStorage.removeItem("bloomy_current_admin_username");
   updateAdminUIState();
   renderPortfolio();
   showToast("Logged out of Photographer Studio Mode.");
@@ -643,6 +654,34 @@ function saveEmployeeAccounts(accounts) {
   localStorage.setItem("bloomy_employee_accounts", JSON.stringify(accounts));
 }
 
+/** Retrieve the configurable master-admin account, with the existing login as the first-use default. */
+function getMasterAdminAccount() {
+  try {
+    const stored = JSON.parse(localStorage.getItem("bloomy_master_admin_account"));
+    if (stored && typeof stored.username === "string" && typeof stored.password === "string") {
+      return stored;
+    }
+  } catch (e) {
+    // Use the first-use account below if an older saved value is malformed.
+  }
+  return { username: "bloomy", password: "bloomy2026" };
+}
+
+/** Whether this browser already has a deliberately configured master-admin account. */
+function hasConfiguredMasterAdminAccount() {
+  try {
+    const stored = JSON.parse(localStorage.getItem("bloomy_master_admin_account"));
+    return Boolean(stored && typeof stored.username === "string" && typeof stored.password === "string");
+  } catch (e) {
+    return false;
+  }
+}
+
+/** Persist the master-admin account for this browser. */
+function saveMasterAdminAccount(account) {
+  localStorage.setItem("bloomy_master_admin_account", JSON.stringify(account));
+}
+
 /** Open the admin dashboard modal (master admin only) */
 function openAdminDashboard() {
   if (!isPhotographerAdmin || sessionStorage.getItem("bloomy_is_master_admin") !== "true") {
@@ -650,8 +689,68 @@ function openAdminDashboard() {
     return;
   }
   renderEmployeeList();
+  populateAdminAccountSettings();
   const modal = document.getElementById("admin-dashboard-modal");
   if (modal) modal.classList.add("active");
+}
+
+/** Fill the account form with the currently signed-in admin's username. */
+function populateAdminAccountSettings() {
+  const account = getMasterAdminAccount();
+  const usernameInput = document.getElementById("admin-current-username");
+  const form = document.getElementById("admin-account-settings-form");
+  if (form) form.reset();
+  if (usernameInput) usernameInput.value = account.username;
+}
+
+/** Update the master admin's own credentials after confirming the current password. */
+function updateAdminCredentials(e) {
+  e.preventDefault();
+  if (!isPhotographerAdmin || sessionStorage.getItem("bloomy_is_master_admin") !== "true") {
+    showToast("Access denied. Admin only.");
+    return;
+  }
+
+  const currentUsername = document.getElementById("admin-current-username").value.trim().toLowerCase();
+  const currentPassword = document.getElementById("admin-current-password").value;
+  const requestedUsername = document.getElementById("admin-new-username").value.trim().toLowerCase();
+  const newPassword = document.getElementById("admin-new-password").value;
+  const confirmPassword = document.getElementById("admin-confirm-password").value;
+  const account = getMasterAdminAccount();
+
+  if (currentUsername !== account.username || currentPassword !== account.password) {
+    showToast("Your current username or password is incorrect.");
+    return;
+  }
+  if (!requestedUsername && !newPassword) {
+    showToast("Enter a new username or password to make a change.");
+    return;
+  }
+  if (requestedUsername && !/^[a-z0-9._-]{3,32}$/.test(requestedUsername)) {
+    showToast("Usernames must be 3–32 characters and use letters, numbers, dots, hyphens, or underscores.");
+    return;
+  }
+  if (requestedUsername && getEmployeeAccounts()[requestedUsername] !== undefined) {
+    showToast("That username is already used by an employee account.");
+    return;
+  }
+  if (newPassword && newPassword.length < 8) {
+    showToast("Your new password must be at least 8 characters.");
+    return;
+  }
+  if (newPassword !== confirmPassword) {
+    showToast("New password confirmation does not match.");
+    return;
+  }
+
+  const updatedAccount = {
+    username: requestedUsername || account.username,
+    password: newPassword || account.password
+  };
+  saveMasterAdminAccount(updatedAccount);
+  sessionStorage.setItem("bloomy_current_admin_username", updatedAccount.username);
+  populateAdminAccountSettings();
+  showToast("Your admin login details have been updated.");
 }
 
 /** Close the admin dashboard modal */
@@ -733,4 +832,170 @@ function deleteEmployee(username) {
     renderEmployeeList();
     showToast(`Employee "${username}" removed.`);
   }
+}
+
+/* ----------------------------------------------------
+   Server-backed login, shared portfolio & live updates
+---------------------------------------------------- */
+async function api(path, options = {}) {
+  const response = await fetch(path, {
+    credentials: "same-origin",
+    headers: { "Content-Type": "application/json", ...(options.headers || {}) },
+    ...options
+  });
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(body.error || "Something went wrong. Please try again.");
+  return body;
+}
+
+async function initPhotographerAdminState() {
+  try {
+    const { user } = await api("/api/me");
+    applyServerSession(user);
+  } catch (error) {
+    applyServerSession(null);
+  }
+  await loadSharedPortfolio();
+  connectLiveUpdates();
+}
+
+function applyServerSession(user) {
+  isPhotographerAdmin = Boolean(user);
+  if (user) {
+    sessionStorage.setItem("bloomy_photographer_admin", "true");
+    sessionStorage.setItem("bloomy_is_master_admin", String(user.role === "admin"));
+    sessionStorage.setItem("bloomy_current_admin_username", user.username);
+  } else {
+    sessionStorage.removeItem("bloomy_photographer_admin");
+    sessionStorage.removeItem("bloomy_is_master_admin");
+    sessionStorage.removeItem("bloomy_current_admin_username");
+  }
+  updateAdminUIState();
+  renderPortfolio();
+}
+
+async function loadSharedPortfolio() {
+  try {
+    const { portfolio } = await api("/api/portfolio");
+    currentPortfolio = Array.isArray(portfolio) ? portfolio : BLOOMY_DATA.portfolio;
+    renderPortfolio();
+  } catch (error) {
+    console.warn("Could not load the shared portfolio.", error);
+  }
+}
+
+function connectLiveUpdates() {
+  const stream = new EventSource("/api/events");
+  stream.addEventListener("portfolio", (event) => {
+    const { portfolio } = JSON.parse(event.data);
+    currentPortfolio = Array.isArray(portfolio) ? portfolio : BLOOMY_DATA.portfolio;
+    renderPortfolio();
+    showToast("Portfolio updated live.");
+  });
+  stream.addEventListener("employees", () => {
+    if (sessionStorage.getItem("bloomy_is_master_admin") === "true") renderEmployeeList();
+  });
+}
+
+async function attemptPhotographerLogin(e) {
+  e.preventDefault();
+  const username = document.getElementById("photographer-username").value.trim();
+  const password = document.getElementById("photographer-passcode").value;
+  try {
+    const { user } = await api("/api/login", { method: "POST", body: JSON.stringify({ username, password }) });
+    applyServerSession(user);
+    closePhotographerLogin();
+    e.target.reset();
+    showToast(`🔓 Welcome, ${user.username}! Admin mode unlocked.`);
+  } catch (error) {
+    alert(error.message);
+  }
+}
+
+async function photographerLogout() {
+  try { await api("/api/logout", { method: "POST", body: "{}" }); } catch (error) { console.warn(error); }
+  applyServerSession(null);
+  showToast("Logged out of Admin Mode.");
+}
+
+function saveCustomPortfolio(portfolioArray) {
+  api("/api/portfolio", { method: "POST", body: JSON.stringify({ portfolio: portfolioArray }) })
+    .catch((error) => showToast(error.message));
+}
+
+async function resetPortfolioDefault() {
+  if (!confirm("Reset the shared portfolio back to its original setup? This affects every visitor.")) return;
+  try {
+    await api("/api/portfolio", { method: "DELETE" });
+    currentPortfolio = BLOOMY_DATA.portfolio;
+    renderPortfolio();
+    showToast("Shared portfolio reset to default.");
+  } catch (error) { showToast(error.message); }
+}
+
+async function openAdminDashboard() {
+  if (!isPhotographerAdmin || sessionStorage.getItem("bloomy_is_master_admin") !== "true") {
+    showToast("Access denied. Admin only.");
+    return;
+  }
+  populateAdminAccountSettings();
+  await renderEmployeeList();
+  document.getElementById("admin-dashboard-modal")?.classList.add("active");
+}
+
+async function renderEmployeeList() {
+  const container = document.getElementById("admin-employee-list");
+  if (!container) return;
+  try {
+    const { employees } = await api("/api/employees");
+    container.innerHTML = employees.length ? employees.map((username) => `
+      <div class="admin-emp-row"><div class="admin-emp-username"></div><button class="admin-emp-delete-btn">🗑 Remove</button></div>`).join("") :
+      `<div class="admin-emp-empty">No employee accounts yet. Create one above.</div>`;
+    container.querySelectorAll(".admin-emp-row").forEach((row, index) => {
+      row.querySelector(".admin-emp-username").textContent = employees[index];
+      row.querySelector("button").onclick = () => deleteEmployee(employees[index]);
+    });
+  } catch (error) { container.innerHTML = `<div class="admin-emp-empty">${error.message}</div>`; }
+}
+
+async function createEmployee(e) {
+  e.preventDefault();
+  const usernameInput = document.getElementById("new-emp-username"), passwordInput = document.getElementById("new-emp-password");
+  try {
+    const { username } = await api("/api/employees", { method: "POST", body: JSON.stringify({ username: usernameInput.value, password: passwordInput.value }) });
+    e.target.reset();
+    await renderEmployeeList();
+    showToast(`Employee account "${username}" created successfully!`);
+  } catch (error) { showToast(error.message); }
+}
+
+async function deleteEmployee(username) {
+  if (!confirm(`Remove employee account "${username}"? They will no longer be able to log in.`)) return;
+  try {
+    await api(`/api/employees/${encodeURIComponent(username)}`, { method: "DELETE" });
+    await renderEmployeeList();
+    showToast(`Employee "${username}" removed.`);
+  } catch (error) { showToast(error.message); }
+}
+
+async function updateAdminCredentials(e) {
+  e.preventDefault();
+  const currentPassword = document.getElementById("admin-current-password").value;
+  const newUsername = document.getElementById("admin-new-username").value;
+  const newPassword = document.getElementById("admin-new-password").value;
+  const confirmation = document.getElementById("admin-confirm-password").value;
+  if (newPassword !== confirmation) return showToast("New password confirmation does not match.");
+  try {
+    const { user } = await api("/api/admin/credentials", { method: "PUT", body: JSON.stringify({ currentPassword, newUsername, newPassword }) });
+    applyServerSession(user);
+    populateAdminAccountSettings();
+    showToast("Your admin login details have been updated.");
+  } catch (error) { showToast(error.message); }
+}
+
+function populateAdminAccountSettings() {
+  const form = document.getElementById("admin-account-settings-form");
+  const usernameInput = document.getElementById("admin-current-username");
+  if (form) form.reset();
+  if (usernameInput) usernameInput.value = sessionStorage.getItem("bloomy_current_admin_username") || "";
 }

@@ -375,6 +375,11 @@ h1, h2, h3, .classic-heading {
   box-shadow: 0 8px 24px rgba(31, 154, 78, 0.4);
 }
 
+.whatsapp-brand-logo {
+  flex: 0 0 auto;
+  display: block;
+}
+
 .btn-outline {
   background: transparent;
   border: 1px solid var(--border-glow);
@@ -1538,6 +1543,53 @@ h1, h2, h3, .classic-heading {
   grid-template-columns: 1fr !important;
   max-width: 560px !important;
   padding: 0 !important;
+}
+
+.admin-settings-card {
+  background: rgba(201, 169, 110, 0.08);
+  border: 1px solid rgba(201, 169, 110, 0.35);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.admin-settings-card h4 {
+  font-family: var(--font-title);
+  font-size: 1rem;
+  margin-bottom: 6px;
+  color: var(--gold-primary);
+}
+
+.admin-settings-help {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  margin: 0 0 16px;
+}
+
+.admin-settings-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.admin-optional {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.admin-settings-submit {
+  width: 100%;
+  justify-content: center;
+  padding: 10px;
+  margin-top: 14px;
+}
+
+@media (max-width: 560px) {
+  .admin-settings-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .admin-emp-row {

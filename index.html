@@ -37,7 +37,7 @@
         <span>Telegram</span>
       </a>
       <button class="top-bar-link" onclick="openPhotographerLogin()" style="background:none; border:none; cursor:pointer; color: var(--gold-primary); font-weight: 600;">
-        <span>🔒 Photographer Login</span>
+        <span>🔒 Admin Login</span>
       </button>
     </div>
   </div>
@@ -77,9 +77,9 @@
       </ul>
 
       <div class="nav-actions">
-        <!-- Photographer Login Pill -->
-        <button class="theme-toggle-btn" id="photographer-nav-btn" onclick="openPhotographerLogin()" title="Photographer Client Login">
-          <span>📷 Photographer Portal</span>
+        <!-- Admin Login Pill -->
+        <button class="theme-toggle-btn" id="photographer-nav-btn" onclick="openPhotographerLogin()" title="Admin Login">
+          <span>🔒 Admin Login</span>
         </button>
 
         <!-- Classic Theme Switcher Pill -->
@@ -88,7 +88,7 @@
         </button>
 
         <a href="https://wa.me/917025198952?text=Hi%20Bloomy%20Weddings%2C%20I%20would%20like%20to%20enquire%20about%20your%20classic%20photography%20services!" target="_blank" class="btn btn-whatsapp">
-          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+          <svg class="whatsapp-brand-logo" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
           <span>WhatsApp Us</span>
         </a>
 
@@ -430,14 +430,14 @@
     </div>
   </div>
 
-  <!-- Photographer Studio Client Login Modal -->
+  <!-- Admin Login Modal -->
   <div class="lightbox-modal" id="photographer-login-modal">
     <div class="lightbox-content" style="grid-template-columns: 1fr; max-width: 480px; padding: 36px;">
       <button class="lightbox-close" onclick="closePhotographerLogin()">&times;</button>
       <div style="text-align: center; margin-bottom: 20px;">
         <div style="font-size: 2.2rem; margin-bottom: 8px;">📷</div>
-        <h3 style="font-family: var(--font-title); font-size: 1.5rem; color: var(--gold-primary); margin-bottom: 6px;">Photographer Client Login</h3>
-        <p style="color: var(--text-muted); font-size: 0.88rem;">Enter your Username & Password to unlock live portfolio management, reordering, and image editing.</p>
+        <h3 style="font-family: var(--font-title); font-size: 1.5rem; color: var(--gold-primary); margin-bottom: 6px;">Admin Login</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem;">Enter your username and password to manage the portfolio, images, and team access.</p>
       </div>
 
       <form id="photographer-login-form" onsubmit="attemptPhotographerLogin(event)">
@@ -503,6 +503,35 @@
           <div style="font-size: 2rem; margin-bottom: 6px;">&#128737;</div>
           <h3 style="font-family: var(--font-title); font-size: 1.5rem; color: var(--gold-primary); margin-bottom: 4px;">Admin Dashboard</h3>
           <p style="color: var(--text-muted); font-size: 0.88rem;">Manage employee accounts for portfolio customization access.</p>
+        </div>
+        <div class="admin-settings-card">
+          <h4>My Admin Login</h4>
+          <p class="admin-settings-help">Update your own sign-in details. Confirm your current password before saving.</p>
+          <form id="admin-account-settings-form" onsubmit="updateAdminCredentials(event)">
+            <div class="admin-settings-grid">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="admin-current-username">Username</label>
+                <input type="text" id="admin-current-username" class="form-input" autocomplete="username" required>
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="admin-current-password">Current password</label>
+                <input type="password" id="admin-current-password" class="form-input" autocomplete="current-password" required>
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="admin-new-username">New username <span class="admin-optional">optional</span></label>
+                <input type="text" id="admin-new-username" class="form-input" placeholder="Leave blank to keep current username" autocomplete="username">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="admin-new-password">New password <span class="admin-optional">optional</span></label>
+                <input type="password" id="admin-new-password" class="form-input" placeholder="At least 8 characters" autocomplete="new-password">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="admin-confirm-password">Confirm new password</label>
+                <input type="password" id="admin-confirm-password" class="form-input" autocomplete="new-password">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-outline admin-settings-submit">Save My Login Details</button>
+          </form>
         </div>
         <div style="background: var(--bg-dark); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 20px; margin-bottom: 24px;">
           <h4 style="font-family: var(--font-title); font-size: 1rem; margin-bottom: 16px; color: var(--text-main);">Create New Employee Account</h4>
