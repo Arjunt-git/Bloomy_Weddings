@@ -154,7 +154,9 @@ function filterPortfolioFromService(cat) {
    4. Photographer Admin Mode & Filterable Portfolio
  ---------------------------------------------------- */
 let isPhotographerAdmin = false;
-let currentPortfolio = getCustomPortfolio();
+let currentPortfolio = Array.isArray(BLOOMY_DATA.portfolio)
+  ? [...BLOOMY_DATA.portfolio]
+  : [];
 
 function initPhotographerAdminState() {
   isPhotographerAdmin = sessionStorage.getItem("bloomy_photographer_admin") === "true";
@@ -260,7 +262,11 @@ function renderPortfolio(category = 'all') {
   const container = document.getElementById("gallery-grid");
   if (!container) return;
 
-  currentPortfolio = getCustomPortfolio();
+  if (!Array.isArray(currentPortfolio)) {
+  currentPortfolio = Array.isArray(BLOOMY_DATA.portfolio)
+    ? [...BLOOMY_DATA.portfolio]
+    : [];
+}
 
   const filtered = category === 'all' 
     ? currentPortfolio 
@@ -351,22 +357,49 @@ function closeEditModal() {
   if (modal) modal.classList.remove("active");
 }
 
-function savePhotoEdit(e) {
+async function savePhotoEdit(e) {
   e.preventDefault();
+
   const id = document.getElementById("edit-photo-id").value;
   const title = document.getElementById("edit-photo-title").value.trim();
   const category = document.getElementById("edit-photo-category").value;
   const desc = document.getElementById("edit-photo-desc").value.trim();
 
   const item = currentPortfolio.find(i => i.id === id);
-  if (item) {
-    item.title = title;
-    item.category = category;
-    item.desc = desc;
-    saveCustomPortfolio(currentPortfolio);
+
+  if (!item) {
+    showToast("Photo not found.");
+    return;
+  }
+
+  if (!title) {
+    showToast("Please enter a photo title.");
+    return;
+  }
+
+  item.title = title;
+  item.category = category;
+  item.desc = desc;
+
+  try {
+    await api("/api/portfolio", {
+      method: "POST",
+      body: JSON.stringify({
+        portfolio: currentPortfolio
+      })
+    });
+
     renderPortfolio();
     closeEditModal();
-    showToast(`Updated "${title}" successfully.`);
+
+    showToast(
+      `Updated "${title}" successfully. Changes are live.`
+    );
+
+  } catch (error) {
+    showToast(
+      `Could not save changes: ${error.message}`
+    );
   }
 }
 
